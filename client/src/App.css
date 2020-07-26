@@ -1,0 +1,61 @@
+:root {
+  --color: #00c785;
+}
+@media (max-width: 500px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+}
+
+@media (hover: none) {
+  a:hover {
+    filter: inherit;
+  }
+  div:hover {
+    filter: inherit;
+  }
+  button:hover {
+    filter: inherit;
+  }
+}
+
+*:disabled {
+  filter: contrast(0.5);
+  cursor: not-allowed;
+}
+*:hover *:disabled {
+  cursor: not-allowed;
+}
+
+.slide-enter {
+  position: absolute;
+  transform: translateX(-110%);
+}
+.slide-enter-active {
+  position: absolute;
+  transform: translateX(0%);
+  transition: all 0.5s ease;
+}
+.slide-exit-active {
+  position: absolute;
+  transform: translateX(-110%);
+  transition: all 0.5s ease;
+}
+/*____________________________________________
+  ____________________________________________
+  */
+.slide-second-enter {
+  position: absolute;
+  transform: translateX(110%);
+}
+.slide-second-enter-active {
+  position: absolute;
+  transform: translateX(0%);
+  transition: all 0.5s ease;
+}
+.slide-second-exit-active {
+  position: absolute;
+  transform: translateX(110%);
+  transition: all 0.5s ease;
+}

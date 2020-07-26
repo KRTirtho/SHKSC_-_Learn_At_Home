@@ -1,0 +1,64 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "@types/jest": "^26.0.4",
+    "@types/node": "^14.0.23",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-transition-group": "^4.4.0",
+    "@types/styled-components": "^5.1.1",
+    "apollo-boost": "^0.4.9",
+    "cloudinary-core": "^2.10.3",
+    "cloudinary-video-player": "^1.4.1",
+    "cra-template-typescript": "1.0.3",
+    "formik": "^2.1.5",
+    "graphql": "^15.3.0",
+    "lodash": "^4.17.19",
+    "react": "^16.13.1",
+    "react-apollo": "^3.1.5",
+    "react-dom": "^16.13.1",
+    "react-loader-spinner": "^3.1.14",
+    "react-multi-carousel": "^2.5.5",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "react-simple-dots-loader": "^1.0.1",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.1.1",
+    "typescript": "^3.9.6",
+    "yup": "^0.29.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "proxy": "http://localhost:4000/",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/yup": "^0.29.3"
+  }
+}
