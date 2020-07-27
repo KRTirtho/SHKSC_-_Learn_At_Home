@@ -6,12 +6,13 @@ import styled from 'styled-components'
 import { Color } from '../../../utils/Assets/CSSProps'
 import { HoverActive } from '../../Static/HoverActive'
 import { useHistory } from 'react-router-dom'
+import { roleValue } from '../../../SchemaTypes/schemaTypes'
 
 const RoleSelection:FC = ()=>{
 
     const history = useHistory()
     
-    const gotoSignUp = (role:"teacher"|"student")=>{
+    const gotoSignUp = (role:roleValue)=>{
         history.push("signup", role)
     }
     
@@ -25,10 +26,10 @@ const RoleSelection:FC = ()=>{
                 </RoleHeaderText>
                 {/* Selection Buttons */}
                 <RoleBody>
-                    <RoleOption onClick={()=>gotoSignUp("teacher")}>
+                    <RoleOption onClick={()=>gotoSignUp(roleValue.teacher)}>
                         <img src="./Assets/TeacherIcon.svg" alt=""/>
                          Teacher <FontAwesomeIcon icon={faAngleRight}/></RoleOption>
-                    <RoleOption onClick={()=>gotoSignUp("student")}>
+                    <RoleOption onClick={()=>gotoSignUp(roleValue.student)}>
                         <img src="./Assets/StudentIcon.svg" alt=""/>
                         Student <FontAwesomeIcon icon={faAngleRight}/></RoleOption>
                 </RoleBody>

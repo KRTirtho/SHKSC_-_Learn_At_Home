@@ -11,6 +11,7 @@ import RoleSelection from './Components/Auth/Forms/RoleSelection';
 import SignUpForm from './Components/Auth/Forms/Signup';
 import SlideRouter from './Components/HighlyDynamic/SlideRouter';
 import SetProfilePicture from './Components/Auth/Forms/SetProfilePicture';
+import { AUTHORIZE_USER } from './schema/query/Authorize';
 /* Pages import */
 const Home = lazy(()=>import('./Pages/Home'))
 const Activities = lazy(()=>import('./Pages/Activities'))
@@ -22,19 +23,6 @@ const Profile = lazy(()=>import('./Pages/Profile'))
 const Ask = lazy(()=>import('./Pages/Ask'))
 const Admin = lazy(()=>import('./Pages/Admin'))
 const Classes = lazy(()=>import('./Pages/Classes'))
-
-const AUTHORIZE_USER = gql`
-    {
-        authorize{
-        login
-        credentials{
-            role
-            _id
-            first_name
-            }
-        }
-    }
-`
 
 const pages = [
   { path: '/', order: 1 },

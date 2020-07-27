@@ -1,36 +1,25 @@
 import React, { FC, useState } from 'react'
 import {useFormik} from "formik"
 import { FormContainer, CommonForm, InputWithLabels, HorizontalContainer, SubmitButton, BackButton, TransitionSlideParent} from "../../Static/Forms"
-import { CSSTransition } from 'react-transition-group'
 import * as Yup from "yup"
 import { PrimaryButton } from '../../Static/Buttons'
 import { useMutation } from 'react-apollo'
-import { gql } from 'apollo-boost'
 import styled from 'styled-components'
 import ButtonLoader from '../../../ComponentLoaders/ButtonLoader'
-import SetProfilePicture from './SetProfilePicture'
 import { useHistory, useLocation } from 'react-router-dom'
 import ConditionalModal from '../../Modals/Conditional.modal'
+import { SIGN_UP } from '../../../schema/mutation/Signup'
+import { SignUp, SignUpVariables, roleValue, shiftValue } from '../../../SchemaTypes/schemaTypes'
 
 /**
  * @description Tow dimensional Menu will appear
  * Avatar & Environment Setup & Tutorial about Functions ............
   */
 
-const SIGN_UP = gql`
-    mutation SignUp ($user: newUser){
-        signUp(user: $user){
-                  _id
-                  role
-                  email
-                  token
-              }
-    }
-`
 const SignUpForm:FC = ()=>{
     const history = useHistory();
     const location = useLocation()
-    const role = location.state
+    const role:roleValue = location.state==="teacher"? roleValue.teacher : roleValue.student
 
     const [singedUp, setSignedUp] = useState<boolean>(false);
     
@@ -57,10 +46,10 @@ const SignUpForm:FC = ()=>{
                 email: "",
                 password: "",
                 shift: "Day",
-                class_roll: "",
-                class: "",
+                class_roll: '',
+                class: '',
                 section: "",
-                teacher_roll: ""
+                teacher_roll: ''
         },
         validationSchema: Yup.object().shape({
             first_name: Yup.string().required("Required"),
@@ -71,17 +60,6 @@ const SignUpForm:FC = ()=>{
             ...conditionalSchema()
         }),
         onSubmit: (values, {resetForm, setSubmitting})=>{
-            const variables = ()=>{
-                if(role==="teacher"){
-                    return {teacher_roll: values.teacher_roll}
-                }
-                else if(role==="student")return {
-                    class_roll: values.class_roll,
-                    class: values.class,
-                    section: values.section
-                }
-            }
-            
             signUp({
                 variables: {
                     user:{
@@ -90,13 +68,16 @@ const SignUpForm:FC = ()=>{
                         last_name: values.last_name,
                         email: values.email,
                         password: values.password,
-                        shift: values.shift,
-                        ...variables()
+                        shift: values.shift==="Day"?shiftValue.Day:shiftValue.Morning,
+                        teacher_roll: typeof values.teacher_roll==="number" ? values.teacher_roll: null,
+                        class_roll: typeof values.class_roll==="number" ? values.class_roll:null,
+                        class: typeof values.class==="number"? values.class: null,
+                        section: values.section,
                     }
                 }
             }).then(data=>{
-                if(data.data.signUp.token && data.data.signUp.token.length>0){
-                    localStorage.setItem("auth_token", data.data.signUp.token)
+                if(data.data?.signUp?.token && data.data?.signUp?.token?.length>0){
+                    localStorage.setItem("auth_token", JSON.stringify(data.data?.signUp?.token))
                     resetForm()
                     setSubmitting(false)
                     setSignedUp(true)
@@ -111,7 +92,7 @@ const SignUpForm:FC = ()=>{
         }
     })
 
-    const [signUp, {error}] = useMutation(SIGN_UP)
+    const [signUp, {error}] = useMutation<SignUp, SignUpVariables>(SIGN_UP)
     
     return(
     <TransitionSlideParent noVerticalCenter={true} minHeight={800}>

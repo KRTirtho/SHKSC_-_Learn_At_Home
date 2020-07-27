@@ -7,7 +7,7 @@ import ApolloClient , {InMemoryCache} from "apollo-boost"
 import {ApolloProvider} from "react-apollo"
 import { BrowserRouter } from 'react-router-dom';
 
-const token = localStorage.getItem("auth_token");
+const token = localStorage.getItem("auth_token")
 
 const clientConfig = {
   uri: "http://localhost:4000/",
@@ -15,11 +15,12 @@ const clientConfig = {
   headers: {}
 }
 
-if(token && token!=="null"&&token!=="undefined"){
+if(token && JSON.parse(token)!=="null"&&JSON.parse(token)!=="undefined"){
   clientConfig.headers = {
-    "Authorization": "Bearer "+token
+    "Authorization": "Bearer "+JSON.parse(token)
   }
 }
+console.log(clientConfig)
 
 const client = new ApolloClient(clientConfig)
 

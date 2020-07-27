@@ -15,10 +15,10 @@ import { CircularButton } from "../Static/Buttons";
 const ImageView: FC<{ show: boolean, close: any, files?: Array<{url: string}> }> = ({show, files, close}) => {
   useEffect(()=>{
     if(show){
-      document.body.style.overflow = "hidden"
+      document.body.style.overflowY = "hidden"
     }
     else {
-      document.body.style.overflow = "scroll"
+      document.body.style.overflowY = "scroll"
     }
   }, [show])
   

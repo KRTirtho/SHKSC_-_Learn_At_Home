@@ -12,18 +12,7 @@ import {faUser, faKey} from "../../../utils/Assets/fontawesome"
 import ButtonLoader from '../../../ComponentLoaders/ButtonLoader';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import {Login as ILogin, LoginVariables} from "../../../SchemaTypes/schemaTypes"
-
-const LOGIN_QUERY = gql`
-  mutation Login($email:String!, $password: String!){
-    login(credentials:{email: $email, password: $password}){
-      _id
-      role
-      email
-      token
-    }
-
-  }
-`
+import { LOGIN_QUERY } from '../../../schema/mutation/Login';
 
 const Login:FC<RouteComponentProps> = () => {
   
@@ -43,7 +32,7 @@ const Login:FC<RouteComponentProps> = () => {
           }
         }).then(data=>{
           if(data){
-            localStorage.setItem("auth_token", data.data.login.token)
+            localStorage.setItem("auth_token", JSON.stringify(data.data?.login?.token))
             resetForm()
             //! Temporary Solution
             window.location.replace("/")
@@ -60,7 +49,7 @@ const Login:FC<RouteComponentProps> = () => {
         password: Yup.string().min(8, "Minimum 8  chars").required("Required")
       })
   })
-  const [login, {error}] = useMutation(LOGIN_QUERY)
+  const [login, {error}] = useMutation<ILogin, LoginVariables>(LOGIN_QUERY)
 
   
     return (
