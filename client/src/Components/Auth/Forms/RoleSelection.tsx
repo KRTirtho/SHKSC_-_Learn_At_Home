@@ -5,24 +5,30 @@ import { faAngleRight } from '../../../utils/Assets/fontawesome'
 import styled from 'styled-components'
 import { Color } from '../../../utils/Assets/CSSProps'
 import { HoverActive } from '../../Static/HoverActive'
+import { useHistory } from 'react-router-dom'
 
-const RoleSelection:FC<{gotoStudent: Function, gotoTeacher: Function, onClick?: Function}> = ({gotoStudent, gotoTeacher, onClick})=>{
+const RoleSelection:FC = ()=>{
 
+    const history = useHistory()
+    
+    const gotoSignUp = (role:"teacher"|"student")=>{
+        history.push("signup", role)
+    }
     
     return(
             <TransitionSlideParent>
             <RoleSelectionContainer>
                 {/* Header Text */}
                 <RoleHeaderText>
-                <BackButton onClick={()=>onClick&&onClick()}/>
+                <BackButton onClick={()=>history.goBack()}/>
                     Select What You Are
                 </RoleHeaderText>
                 {/* Selection Buttons */}
                 <RoleBody>
-                    <RoleOption onClick={()=>gotoTeacher()}>
+                    <RoleOption onClick={()=>gotoSignUp("teacher")}>
                         <img src="./Assets/TeacherIcon.svg" alt=""/>
                          Teacher <FontAwesomeIcon icon={faAngleRight}/></RoleOption>
-                    <RoleOption onClick={()=>gotoStudent()}>
+                    <RoleOption onClick={()=>gotoSignUp("student")}>
                         <img src="./Assets/StudentIcon.svg" alt=""/>
                         Student <FontAwesomeIcon icon={faAngleRight}/></RoleOption>
                 </RoleBody>

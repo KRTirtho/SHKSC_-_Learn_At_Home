@@ -1,6 +1,5 @@
-:root {
-  --color: #00c785;
-}
+/* Bug Fix */
+
 @media (max-width: 500px) {
   * {
     -webkit-tap-highlight-color: transparent;
@@ -28,34 +27,57 @@
   cursor: not-allowed;
 }
 
-.slide-enter {
+/* ==================
+    Route Page Slide
+   ==================
+ */
+.route__container {
+  width: 100%;
+  height: 100vh;
   position: absolute;
-  transform: translateX(-110%);
+  top: 0px;
+  left: 0px;
+  transition: 0.3s all ease;
 }
-.slide-enter-active {
-  position: absolute;
+
+.left .route-enter {
+  transform: translateX(100%);
+}
+
+.left .route-enter-active {
   transform: translateX(0%);
-  transition: all 0.5s ease;
 }
-.slide-exit-active {
-  position: absolute;
-  transform: translateX(-110%);
-  transition: all 0.5s ease;
+
+.left .route-exit {
+  transform: translateX(-100%);
 }
-/*____________________________________________
-  ____________________________________________
-  */
-.slide-second-enter {
-  position: absolute;
-  transform: translateX(110%);
+
+.left .route-exit-active {
+  transform: translateX(-100%);
 }
-.slide-second-enter-active {
-  position: absolute;
+
+.right .route-enter {
+  transform: translateX(-100%);
+}
+
+.right .route-enter-active {
   transform: translateX(0%);
-  transition: all 0.5s ease;
 }
-.slide-second-exit-active {
-  position: absolute;
-  transform: translateX(110%);
-  transition: all 0.5s ease;
+
+.right .route-exit {
+  transform: translateX(100%);
+}
+
+/* 
+  ================
+  Scale Transition
+  ================
+ */
+
+.scale-enter, .scale-exit-active{
+  transform: scale(0);
+}
+.scale-enter-active, .scale-exit{
+  transform: scale(1);
+  transition: 0.3s all ease-out;
 }

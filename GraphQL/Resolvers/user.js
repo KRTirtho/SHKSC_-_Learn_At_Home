@@ -2,23 +2,33 @@ import User from "../../Model/User"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { AuthenticationError } from "apollo-server"
+import config from "../../config"
 
 export const signUp = (_, args)=>{
-    return bcrypt.hash(args.user.password, 12).then(hashed=>{
-        const newUser = new User({
-            ...args.user,
-            password: hashed
-        })
-        return newUser.save().then(user=>{
-            if(!user)throw new Error("Failed to create User")
-            return {...user._doc, password: null, token: "test"}
-        })
-        .catch(err=>{
-            console.error("SIGNUP ERROR: ", err)
-            throw err
-        })
-    })
-}
+    // Checking for the user if it exists....
+    return User.findOne({email: args.user.email}).exec()
+            .then(existUser=>{
+                if(existUser)throw new Error("User with the provided email already exists");
+                // Hashing Password
+                return bcrypt.hash(args.user.password, 12).then(hashed=>{
+                    const newUser = new User({
+                        ...args.user,
+                        password: hashed
+                    })
+                    // Saving new User
+                    return newUser.save().then(user=>{
+                        if(!user)throw new Error("Failed to create User")
+                        // Signing new auth token
+                        const token = jwt.sign({_id: user._id, email: user.email}, config.JWT_SECRET, {expiresIn: "10h"})
+                        return {...user._doc, password: null, token: token}
+                    })
+                    .catch(err=>{
+                        console.error("SIGNUP ERROR: ", err)
+                        throw err
+                    })
+                })
+            })
+        }
 
 /* For Development Purpose */
 export const queryUser = (_, __, {isAuthenticated})=>{
@@ -42,7 +52,7 @@ export const login = (_, args)=>{
                 .then(isSame=>{
                     if(!isSame)throw new Error("Password doesn't match ")
                     // If matches then simply sign jwt
-                    const token = jwt.sign({_id: user.id, email: user.email}, "SECRETFORDEVELOPMENT", {expiresIn: "10h"})
+                    const token = jwt.sign({_id: user.id, email: user.email}, config.JWT_SECRET, {expiresIn: "10h"})
                     return {...user._doc, token, password: null}
                 })
                 .catch(err=>{
@@ -56,7 +66,7 @@ export const login = (_, args)=>{
         })
 }
 
-export const authorize = (_, args, context)=>{
+export const authorize = (_, __, context)=>{
     if(context.isAuthenticated){
         return User.findById(context.user._id).select("-password").exec()
                 .then(user=>{

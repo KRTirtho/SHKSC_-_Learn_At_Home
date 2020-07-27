@@ -77,10 +77,11 @@ export const SubmitButtonStyle = styled(HoverActive)`
     transition: 0.2s all ease;
     color: ${Color.primaryBackground};
     margin: 10px;
+    display: flex;
 `
-export const SubmitButton: FC<InputHTMLAttributes<HTMLInputElement>> = ({...rest})=>{
+export const SubmitButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({children, ...rest})=>{
     return (
-        <SubmitButtonStyle {...rest} as="input"/>
+        <SubmitButtonStyle {...rest} as="button">{children}</SubmitButtonStyle>
     )
 }
 

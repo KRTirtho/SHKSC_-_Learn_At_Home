@@ -1,11 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 
 import Carousel from "react-multi-carousel";
 import {ResponsiveType} from "react-multi-carousel/lib/types"
 import "react-multi-carousel/lib/styles.css";
 import styled, { css } from 'styled-components';
 import { Color } from '../../utils/Assets/CSSProps';
-const responsive: ResponsiveType = {
+import ImageView from './ImageView';
+export const responsive: ResponsiveType = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
@@ -29,7 +30,15 @@ type PostFilesProps = {
     files?: {url: string}[]
 }
 const PostFiles: FC<PostFilesProps> = ({files}) => {
+    const [massiveView, setMassiveView] = useState<boolean>(false)
+    
     return (
+        <>
+        <ImageView
+            show={massiveView}
+            files={files}
+            close={()=>setMassiveView(false)}
+        />
         <MainContainer>
             {files && <Carousel
              swipeable={true}
@@ -49,12 +58,13 @@ const PostFiles: FC<PostFilesProps> = ({files}) => {
                     files?.map((file, index)=>{
                        return ( <FileContainer key={index}>
                            <p>{index+1}\{files.length}</p>
-                            <img src={file.url} alt=""/>
+                            <img onClick={()=>setMassiveView(true)} src={file.url} alt=""/>
                         </FileContainer>)
                     })
                 }
             </Carousel>}
         </MainContainer>
+        </>
     )
 }
 

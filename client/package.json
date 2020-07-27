@@ -9,13 +9,6 @@
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "@types/jest": "^26.0.4",
-    "@types/node": "^14.0.23",
-    "@types/react": "^16.9.43",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.5",
-    "@types/react-transition-group": "^4.4.0",
-    "@types/styled-components": "^5.1.1",
     "apollo-boost": "^0.4.9",
     "cloudinary-core": "^2.10.3",
     "cloudinary-video-player": "^1.4.1",
@@ -30,7 +23,6 @@
     "react-multi-carousel": "^2.5.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-simple-dots-loader": "^1.0.1",
     "react-transition-group": "^4.4.1",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.6",
@@ -59,6 +51,14 @@
     ]
   },
   "devDependencies": {
-    "@types/yup": "^0.29.3"
+    "@types/jest": "^26.0.4",
+    "@types/node": "^14.0.23",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/react-transition-group": "^4.4.0",
+    "@types/styled-components": "^5.1.1",
+    "@types/yup": "^0.29.3",
+    "apollo": "^2.30.1"
   }
 }

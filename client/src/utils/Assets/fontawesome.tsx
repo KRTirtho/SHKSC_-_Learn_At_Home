@@ -17,10 +17,14 @@ import {
     faUserMd,
     faKey,
     faAngleRight,
-    faLongArrowAltLeft
+    faLongArrowAltLeft,
+    faCamera,
+    faUserAlt
 } from "@fortawesome/free-solid-svg-icons"
 
 export {
+    faUserAlt,
+    faCamera,
     faLongArrowAltLeft,
     faAngleRight,
     faKey,

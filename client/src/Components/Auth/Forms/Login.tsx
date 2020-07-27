@@ -9,20 +9,23 @@ import ConditionalModal from "../../Modals/Conditional.modal";
 import * as Yup from "yup"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser, faKey} from "../../../utils/Assets/fontawesome"
+import ButtonLoader from '../../../ComponentLoaders/ButtonLoader';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import {Login as ILogin, LoginVariables} from "../../../SchemaTypes/schemaTypes"
 
 const LOGIN_QUERY = gql`
   mutation Login($email:String!, $password: String!){
     login(credentials:{email: $email, password: $password}){
       _id
       role
-      first_name
+      email
       token
     }
 
   }
 `
 
-const Login:FC<{onClick?: Function}> = ({onClick}) => {
+const Login:FC<RouteComponentProps> = () => {
   
   const {values,
     errors,
@@ -65,7 +68,6 @@ const Login:FC<{onClick?: Function}> = ({onClick}) => {
           <ConditionalModal body={error&&error.message.split(":")[1]} msg={error&&error.name} error={error?true:false}/>
         <FormContainer>
           <Brand brand="SHKSC" subTitle="Stay Home|Stay Safe" src="./Assets/TeacherIcon.svg" alt=""/>
-            
             <CommonForm onSubmit={handleSubmit}>
               <InputWithError
                   type="text"
@@ -89,10 +91,12 @@ const Login:FC<{onClick?: Function}> = ({onClick}) => {
                   touched={touched.password}
                   icon={<FontAwesomeIcon icon={faKey}/>}
               />
-              <SubmitButton type="submit" disabled={isSubmitting} value="Login"/>
+              <SubmitButton type="submit" disabled={isSubmitting}>
+                Login <ButtonLoader show={isSubmitting}/>
+                </SubmitButton>
               <FormEndOptionsContainer>
                 <FormEndOptions type="button">Forgot Password?</FormEndOptions>
-                <FormEndOptions type="button" onClick={()=>onClick&&onClick()}>Sign Up</FormEndOptions>
+                <Link to="/roles"><FormEndOptions type="button">Sign Up</FormEndOptions></Link>
               </FormEndOptionsContainer>
             </CommonForm>
         </FormContainer>
@@ -101,19 +105,6 @@ const Login:FC<{onClick?: Function}> = ({onClick}) => {
 }
 
 export default Login
-
-
-const GreetingsText = styled.div`
-  text-align: center;
-  h3{
-    color: ${Color.primaryBlue};
-    margin: 0;
-  }
-  h4{
-    color: ${Color.primaryGreen};
-  }
-`
-
 
 const FormEndOptionsContainer = styled.div`
   width: 100%;

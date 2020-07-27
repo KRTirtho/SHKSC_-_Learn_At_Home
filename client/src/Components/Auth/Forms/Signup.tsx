@@ -1,117 +1,39 @@
 import React, { FC, useState } from 'react'
 import {useFormik} from "formik"
-import { FormContainer, CommonForm, InputWithLabels, HorizontalContainer, SubmitButton, TransitionWrapper, BackButton, TransitionSlideParent} from "../../Static/Forms"
+import { FormContainer, CommonForm, InputWithLabels, HorizontalContainer, SubmitButton, BackButton, TransitionSlideParent} from "../../Static/Forms"
 import { CSSTransition } from 'react-transition-group'
 import * as Yup from "yup"
 import { PrimaryButton } from '../../Static/Buttons'
-import RoleSelection from './RoleSelection'
 import { useMutation } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import styled from 'styled-components'
+import ButtonLoader from '../../../ComponentLoaders/ButtonLoader'
+import SetProfilePicture from './SetProfilePicture'
+import { useHistory, useLocation } from 'react-router-dom'
+import ConditionalModal from '../../Modals/Conditional.modal'
 
 /**
  * @description Tow dimensional Menu will appear
- * 1. Im' a Teacher 2. I'm a Student 
- * --> Teacher:  * first_name
-                 * last_name
-                 * email
-                 * password
-                 * teacher_roll?
-                 * shift
- *______________________________________________________
- *______________________________________________________
- * --> Student * first_name
-               * last_name
-               * email
-               * password
-               * class_roll
-               * shift
-               * class
-               * section
  * Avatar & Environment Setup & Tutorial about Functions ............
   */
 
-const Signup:FC<{onClick?: Function}> = ({onClick}) => {
-    const [role, setRole] = useState<"student"|"teacher">("student");
-    
-    const [page, setPage] = useState<"select-role"|"sign-up">("select-role")
-    
-    return (
-        <TransitionSlideParent>
-        <TransitionWrapper>
-            {/* Role Selection Page */}
-            <CSSTransition 
-                in={page==="select-role"}
-                unmountOnExit
-                classNames="slide"
-                timeout={500}
-            >
-            <RoleSelection gotoStudent={()=>{
-                setRole("student")
-                setPage("sign-up")
-                }}
-                gotoTeacher={()=>{
-                    setRole("teacher")
-                    setPage("sign-up")
-                }}
-                onClick={()=>onClick&&onClick()}
-            />
-            </CSSTransition>
-
-             
-            <CSSTransition 
-                in={page==="sign-up"}
-                unmountOnExit
-                classNames="slide-second"
-                timeout={500}
-            >
-                {/* If role==="" */}
-                <SignUpForm goBack={()=>setPage("select-role")} role={role}/>
-            </CSSTransition>
-
-        </TransitionWrapper>
-        </TransitionSlideParent>
-    )
-}
-
-export default Signup;
-
-type SigUpFormProps = {
-    role: "student"|"teacher",
-    goBack: Function
-}
-
 const SIGN_UP = gql`
-    mutation SignUp (
-        $role: String!,
-        $first_name: String!,
-        $last_name: String!,
-        $email: String!,
-        $password: String!,
-        $class_roll: Int,
-        $class: Int,
-        $section: String,
-        $teacher_roll: Int,
-        $shift: String!,
-    ){
-        signUp(user:{
-                role: $role,
-                first_name: $first_name,
-                last_name: $last_name,
-                email: $email,
-                password: $password,
-                class_roll: $class_roll,
-                class: $class,
-                section: $section,
-                teacher_roll: $teacher_roll,
-                shift: $shift
-              }){
+    mutation SignUp ($user: newUser){
+        signUp(user: $user){
                   _id
+                  role
+                  email
+                  token
               }
     }
 `
+const SignUpForm:FC = ()=>{
+    const history = useHistory();
+    const location = useLocation()
+    const role = location.state
 
-const SignUpForm:FC<SigUpFormProps> = ({role, goBack})=>{
+    const [singedUp, setSignedUp] = useState<boolean>(false);
+    
     // extra field based validation schema
     const conditionalSchema = ()=>{
         if(role==="student"){
@@ -162,16 +84,24 @@ const SignUpForm:FC<SigUpFormProps> = ({role, goBack})=>{
             
             signUp({
                 variables: {
-                    role: role,
-                    first_name: values.first_name,
-                    last_name: values.last_name,
-                    email: values.email,
-                    password: values.password,
-                    shift: values.shift,
-                    ...variables()
+                    user:{
+                        role: role,
+                        first_name: values.first_name,
+                        last_name: values.last_name,
+                        email: values.email,
+                        password: values.password,
+                        shift: values.shift,
+                        ...variables()
+                    }
                 }
             }).then(data=>{
-                console.log(data)
+                if(data.data.signUp.token && data.data.signUp.token.length>0){
+                    localStorage.setItem("auth_token", data.data.signUp.token)
+                    resetForm()
+                    setSubmitting(false)
+                    setSignedUp(true)
+                    history.push("/set-avatar", "{signedUp: true}")
+                }
                 setSubmitting(false)
             })
             .catch(e=>{
@@ -181,14 +111,15 @@ const SignUpForm:FC<SigUpFormProps> = ({role, goBack})=>{
         }
     })
 
-    const [signUp, {data, loading, error}] = useMutation(SIGN_UP)
+    const [signUp, {error}] = useMutation(SIGN_UP)
     
-    console.log(errors, values)
-
     return(
     <TransitionSlideParent noVerticalCenter={true} minHeight={800}>
+        <ConditionalModal error={error?true:false} msg={error?.name} body={error?.message.split(":")[1]}/>
     <FormContainer>
-        <BackButton onClick={()=>goBack()}/>
+        <div style={{width: "100%", display: "flex", justifyContent: "flex-start"}}>
+        <BackButton onClick={()=>history.goBack()}/>
+        </div>
         <FormRoleAvatar src={role==="teacher"?"./Assets/TeacherIcon.svg":"./Assets/StudentIcon.svg"} alt=""/>
         
         {/* Header Text */}
@@ -306,9 +237,8 @@ const SignUpForm:FC<SigUpFormProps> = ({role, goBack})=>{
                     <option value="Day">Day</option>
                     <option value="Morning">Morning</option>
                 </PrimaryButton>
-                <SubmitButton type="submit" value="Submit" disabled={isSubmitting}/> 
+                <SubmitButton type="submit" disabled={isSubmitting}>Sign Up<ButtonLoader show={isSubmitting}/></SubmitButton> 
             </HorizontalContainer>
-
         </CommonForm>
     </FormContainer>
     </TransitionSlideParent>
@@ -322,3 +252,5 @@ const FormRoleAvatar = styled.img`
     margin: auto;
     margin-bottom: 10px;
 `
+
+export default SignUpForm

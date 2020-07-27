@@ -1,13 +1,17 @@
-import React, {lazy, Suspense, useEffect} from 'react';
+import React, {lazy, Suspense, FC} from 'react';
 import './App.css';
 import Navbar from './Components/UI/Navbar';
 import Topbar from './Components/UI/Topbar';
-import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { Route, Switch, withRouter, RouteComponentProps } from "react-router-dom"
 import Fallback from './ComponentLoaders/SuspenseFallback.loader';
 import { useQuery } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import Login from './Components/Auth/Forms/Login';
+import RoleSelection from './Components/Auth/Forms/RoleSelection';
+import SignUpForm from './Components/Auth/Forms/Signup';
+import SlideRouter from './Components/HighlyDynamic/SlideRouter';
+import SetProfilePicture from './Components/Auth/Forms/SetProfilePicture';
 /* Pages import */
-const Auth = lazy(()=>import("./Components/Auth/Index"))
 const Home = lazy(()=>import('./Pages/Home'))
 const Activities = lazy(()=>import('./Pages/Activities'))
 const Principal = lazy(()=>import('./Pages/Principal'))
@@ -32,11 +36,17 @@ const AUTHORIZE_USER = gql`
     }
 `
 
-function App(){
+const pages = [
+  { path: '/', order: 1 },
+  { path: '/roles', order: 2 },
+  { path: '/signup', order: 3 },
+  { path: "/set-avatar", order: 4}
+]
+
+const App:FC<RouteComponentProps> = ({location})=>{
   const {data, error,} = useQuery(AUTHORIZE_USER); 
 
-  return (
-      <BrowserRouter>
+  return <>
         {/* If logged in then ca be accessed */}
       
         {
@@ -45,9 +55,6 @@ function App(){
       <div style={{
         margin: "4rem 0"
       }}>
-      <Route
-        render={({location})=>{
-          return (
             <Suspense fallback={<Fallback/>}>
             {!error && data && data.authorize&&data.authorize.login===true?
             <Switch location={location}>
@@ -63,14 +70,17 @@ function App(){
               <Route exact path="/admin"><Admin/></Route>
             </Switch>
             :
-            <Auth/>}
+            <SlideRouter config={pages}>
+              <Route path="/" exact component={Login} />
+              <Route path="/roles" component={RoleSelection} />
+              <Route path="/signup" component={SignUpForm} />
+              <Route path="/set-avatar" component={SetProfilePicture}/>
+            </SlideRouter>
+            }
             </Suspense>
-            )
-          }}
-          />
           </div>
-      </BrowserRouter>
-      );
+      </>
+      
     }
 
-export default App;
+export default withRouter(App);
