@@ -1,7 +1,12 @@
 import { gql } from "apollo-server"
-import { queryUser, login, authorize, signUp } from "../Resolvers/user"
+import { queryUser, login, authorize, signUp, setAvatar } from "../Resolvers/user"
 
 export const userTypes = gql`
+    type AvatarTypes{
+        mimetype: String!
+        size: Int!
+    }
+
     type Query{
         users: [User]
         authorize: authorizeUser
@@ -9,6 +14,7 @@ export const userTypes = gql`
     type Mutation{
         signUp(user: newUser):User
         login(credentials: authUser):User
+        setAvatar(file: Upload!): AvatarTypes!
     }
     # For user return type
     type User {
@@ -78,5 +84,6 @@ export  const userResolvers =  {
         Mutation:{
             login: login,
             signUp: signUp,
+            setAvatar: setAvatar
         }
     };

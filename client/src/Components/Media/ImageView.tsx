@@ -79,6 +79,9 @@ const ViewContainer = styled.div`
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
+  p{
+    opacity: 0;
+  }
   &:hover {
     p {
       opacity: 1;

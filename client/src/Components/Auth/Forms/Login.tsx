@@ -4,18 +4,16 @@ import { InputWithError, SubmitButton, CommonForm, FormContainer, Brand, Transit
 import styled from 'styled-components';
 import { Color } from '../../../utils/Assets/CSSProps';
 import {useMutation} from "react-apollo"
-import { gql } from 'apollo-boost';
 import ConditionalModal from "../../Modals/Conditional.modal";
 import * as Yup from "yup"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser, faKey} from "../../../utils/Assets/fontawesome"
 import ButtonLoader from '../../../ComponentLoaders/ButtonLoader';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {Login as ILogin, LoginVariables} from "../../../SchemaTypes/schemaTypes"
 import { LOGIN_QUERY } from '../../../schema/mutation/Login';
 
-const Login:FC<RouteComponentProps> = () => {
-  
+const Login:FC = () => {
   const {values,
     errors,
     touched,
@@ -29,13 +27,13 @@ const Login:FC<RouteComponentProps> = () => {
           variables: {
             email: values.email,
             password: values.password,
-          }
+          },
         }).then(data=>{
           if(data){
             localStorage.setItem("auth_token", JSON.stringify(data.data?.login?.token))
             resetForm()
             //! Temporary Solution
-            window.location.replace("/")
+            client?.writeData({data: {loggedIn: true}})
           }
           setSubmitting(false)
         })
@@ -49,8 +47,7 @@ const Login:FC<RouteComponentProps> = () => {
         password: Yup.string().min(8, "Minimum 8  chars").required("Required")
       })
   })
-  const [login, {error}] = useMutation<ILogin, LoginVariables>(LOGIN_QUERY)
-
+  const [login, {error, client}] = useMutation<ILogin, LoginVariables>(LOGIN_QUERY)
   
     return (
         <TransitionSlideParent>

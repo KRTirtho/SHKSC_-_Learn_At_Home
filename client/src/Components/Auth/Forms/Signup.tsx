@@ -21,8 +21,6 @@ const SignUpForm:FC = ()=>{
     const location = useLocation()
     const role:roleValue = location.state==="teacher"? roleValue.teacher : roleValue.student
 
-    const [singedUp, setSignedUp] = useState<boolean>(false);
-    
     // extra field based validation schema
     const conditionalSchema = ()=>{
         if(role==="student"){
@@ -75,13 +73,13 @@ const SignUpForm:FC = ()=>{
                         section: values.section,
                     }
                 }
-            }).then(data=>{
-                if(data.data?.signUp?.token && data.data?.signUp?.token?.length>0){
-                    localStorage.setItem("auth_token", JSON.stringify(data.data?.signUp?.token))
+            }).then(({data})=>{
+                if(data?.signUp?.token && data?.signUp?.token?.length>0){
+                    localStorage.setItem("auth_token", JSON.stringify(data?.signUp?.token))
                     resetForm()
                     setSubmitting(false)
-                    setSignedUp(true)
-                    history.push("/set-avatar", "{signedUp: true}")
+                    history.push("/set-avatar")
+                    client?.writeData({data: {signedUp: true}})
                 }
                 setSubmitting(false)
             })
@@ -92,7 +90,7 @@ const SignUpForm:FC = ()=>{
         }
     })
 
-    const [signUp, {error}] = useMutation<SignUp, SignUpVariables>(SIGN_UP)
+    const [signUp, {error, client}] = useMutation<SignUp, SignUpVariables>(SIGN_UP)
     
     return(
     <TransitionSlideParent noVerticalCenter={true} minHeight={800}>

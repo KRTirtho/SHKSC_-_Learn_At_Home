@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserAlt, faCamera } from "../../../utils/Assets/fontawesome";
 import { SubmitButton, TransitionSlideParent } from "../../Static/Forms";
@@ -7,24 +7,37 @@ import styled from "styled-components";
 import { Color } from "../../../utils/Assets/CSSProps";
 import { HoverActive } from "../../Static/HoverActive";
 import { PrimaryButton } from "../../Static/Buttons";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useMutation } from "react-apollo";
+import { SET_AVATAR } from "../../../schema/mutation/SetAvatar";
 
 const SetProfilePicture = () => {
-  const location = useLocation()
   const [isEditing, setEditing] = useState<boolean>(false);
   const  [image, setImage] = useState('');
+  const [uploadImage, setUploadImage] = useState('')
 
   const handleImage = (e:any)=>{
     if(e.target.files[0]){
       setEditing(true)
       setImage(URL.createObjectURL(e.target.files[0]))
+      setUploadImage(e.target.files[0])
     }
   }
 
+  // Uploading file to backend
+  const [setAvatar, {error}] = useMutation(SET_AVATAR)
+
+  const handleSubmit = (e:any):void=>{
+    e.preventDefault()
+    if(uploadImage){
+      setAvatar({variables: {
+        file: uploadImage
+      }})
+    }
+  }
+  
   return (
     <TransitionSlideParent>
-      {
-        location.state==="{signedUp: true}" &&
       <AvatarContainer>
         {/* Header Text */}
         <h2>Set an Avatar</h2>
@@ -37,19 +50,18 @@ const SetProfilePicture = () => {
                   <FontAwesomeIcon icon={faCamera} />
                 </LabelForFile>
             </ImageContainer>
-          <form onSubmit={e=>e.preventDefault()}>
+          <form onSubmit={handleSubmit}>
             <input style={{display: "none"}} type="file" onChange={handleImage} name="avatar" id="avatar" />
             <div style={{marginTop: 20, width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-            <SubmitButton type="submit">
+            <SubmitButton disabled={!uploadImage} type="submit">
               Set Avatar
               <ButtonLoader />
             </SubmitButton>
-            <PrimaryButton as="button">Skip</PrimaryButton>
+            <Link to="/welcome"><PrimaryButton as="button">Skip</PrimaryButton></Link>
             </div>
           </form>
         </div>
       </AvatarContainer>
-      }
     </TransitionSlideParent>
   );
 };

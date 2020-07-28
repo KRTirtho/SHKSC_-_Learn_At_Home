@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { AuthenticationError } from "apollo-server"
 import config from "../../config"
+import fs from "fs"
 
 export const signUp = (_, args)=>{
     // Checking for the user if it exists....
@@ -77,5 +78,21 @@ export const authorize = (_, __, context)=>{
     }
     else {
         return {login: false}
+    }
+}
+
+export const setAvatar = (_, {file}, context)=>{
+    if(context.isAuthenticated || true){
+        console.log(file)
+        file.createReadStream(fileData=>{
+            const newFile = fs.createWriteStream("./"+file.filename, {encoding: "binary"})           
+
+            fs.writeFile(newFile, fileData, {encoding: "binary"})
+        })
+        
+        return {
+            mimetype: "img/png",
+            size: 20039
+        }
     }
 }

@@ -3,15 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import ApolloClient , {InMemoryCache} from "apollo-boost"
+import {InMemoryCache, ApolloClient} from "apollo-boost"
 import {ApolloProvider} from "react-apollo"
 import { BrowserRouter } from 'react-router-dom';
+import {createUploadLink} from "apollo-upload-client"
+// Local State
+import {typeDefs, resolvers} from "./state/typeDefs"
 
 const token = localStorage.getItem("auth_token")
 
 const clientConfig = {
   uri: "http://localhost:4000/",
-  cache: new InMemoryCache(),
   headers: {}
 }
 
@@ -20,10 +22,19 @@ if(token && JSON.parse(token)!=="null"&&JSON.parse(token)!=="undefined"){
     "Authorization": "Bearer "+JSON.parse(token)
   }
 }
-console.log(clientConfig)
 
-const client = new ApolloClient(clientConfig)
+const cache = new InMemoryCache()
 
+const client = new ApolloClient({link: createUploadLink(clientConfig),
+                                 cache, 
+                                 typeDefs,
+                                 resolvers})
+                                 
+
+// initializing local state  
+
+cache.writeData({data: {loggedIn: false, signedUp: false}})
+                                 
 ReactDOM.render(
   <ApolloProvider client={client}>
     <BrowserRouter>

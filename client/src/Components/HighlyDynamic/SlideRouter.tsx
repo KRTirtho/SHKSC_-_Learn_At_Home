@@ -3,12 +3,15 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { Switch, withRouter, RouteComponentProps } from 'react-router-dom'
 
 type SlideConfig = {
-    config: {path: string, order: number}[]
+    children: any
 }
 
-const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children, config}) => {
-    // Pages Config File
-    const pages = config;
+const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children}) => {
+    // Dynamically Determining the page order by getting the children path & indexOf(child) 
+    const pages: Array<{path: string, order: number}> = []
+    for(const child of children){
+        pages.push({path: child?.props?.path, order: children.indexOf(child)+1})
+    }
     
     // Determines whether page should be coming from right or left
     const [pageDirection, setPageDirection] = useState<"left"|"right"|undefined>()
@@ -16,7 +19,7 @@ const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children, 
     const [currentPath, setCurrentPath] = useState(location.pathname)
     // Gets the order of path from provided config. Where it determines the matching path order
     const [currentPathOrder, setCurrentPathOrder] = useState(
-        pages.filter(({ path }) => path === location.pathname)[0].order
+        pages.filter(({ path }) => path === location.pathname)[0]?.order
     )
     // Getting the key from path
     const currentKey = location.pathname.split('/')[1] || '/'
@@ -24,7 +27,7 @@ const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children, 
         /* The new path which is found after second render while changing routes.*/
         const newPath = location.pathname
         // The incoming path order. 
-        const newPathOrder = pages.filter(({ path }) => path === newPath)[0].order
+        const newPathOrder = pages.filter(({ path }) => path === newPath)[0]?.order
         //This determines whether page will be coming from left or right
         // If newPath & currentPatch is not equal then it checks and compares the order
         // If the current path order is less then new One then it comes from left
@@ -35,7 +38,7 @@ const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children, 
             setPageDirection(direction)
         }
     })
-    
+
     return (
         <TransitionGroup className={`${pageDirection}`}>
             <CSSTransition key={currentKey} timeout={300} classNames={'route'}>

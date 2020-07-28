@@ -54,6 +54,32 @@ export interface SignUpVariables {
 // @generated
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: Authorize
+// ====================================================
+
+export interface Authorize_authorize_credentials {
+  __typename: "User";
+  role: roleValue | null;
+  _id: string;
+  first_name: string | null;
+}
+
+export interface Authorize_authorize {
+  __typename: "authorizeUser";
+  login: boolean | null;
+  credentials: Authorize_authorize_credentials | null;
+}
+
+export interface Authorize {
+  authorize: Authorize_authorize | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
