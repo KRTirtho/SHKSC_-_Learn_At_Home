@@ -30,6 +30,52 @@ export interface LoginVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: Post
+// ====================================================
+
+export interface Post_post {
+  __typename: "Flash";
+  success: boolean;
+
+}
+
+export interface Post {
+  post: Post_post;
+}
+
+export interface PostVariables {
+  post: newPost;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: SetAvatar
+// ====================================================
+
+export interface SetAvatar_setAvatar {
+  __typename: "AvatarTypes";
+  mimetype: string;
+  size: number;
+}
+
+export interface SetAvatar {
+  setAvatar: SetAvatar_setAvatar;
+}
+
+export interface SetAvatarVariables {
+  file: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SignUp
 // ====================================================
 
@@ -84,6 +130,23 @@ export interface Authorize {
 // START Enums and Input Objects
 //==============================================================
 
+export enum group {
+  Arts = "Arts",
+  Business_Studies = "Business_Studies",
+  Null = "Null",
+  Science = "Science",
+}
+
+export enum postType {
+  activities = "activities",
+  all = "all",
+  announcement = "announcement",
+  classes = "classes",
+  examination = "examination",
+  principal = "principal",
+  question = "question",
+}
+
 export enum roleValue {
   student = "student",
   teacher = "teacher",
@@ -92,6 +155,18 @@ export enum roleValue {
 export enum shiftValue {
   Day = "Day",
   Morning = "Morning",
+}
+
+export interface newPost {
+  post_type: postType;
+  title: string;
+  description: string;
+  class?: number | null;
+  chapter?: string | null;
+  group?: group | null;
+  subject?: string | null;
+  section?: string | null;
+  files?: any | null;
 }
 
 export interface newUser {

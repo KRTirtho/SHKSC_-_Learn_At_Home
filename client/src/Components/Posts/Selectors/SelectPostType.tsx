@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { Color } from "../../../utils/Assets/CSSProps";
 import {faAngleRight} from "../../../utils/Assets/fontawesome"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { postType } from "../../../SchemaTypes/schemaTypes";
 
 
 /**
@@ -30,10 +31,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  * TODO: Add Colorful SVG Icon in Post Options 
  */
 
+
 const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
   const history = useHistory();
 
-  function gotoPostUploader(state: string): void {
+  function gotoPostUploader(state: postType): void {
     history.push(`${parentPath}/upload`, state);
   }
 
@@ -45,7 +47,7 @@ const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
 
       {/* Common */}
       <PostOptions
-        onClick={() => gotoPostUploader("activities")}
+        onClick={() => gotoPostUploader(postType.activities)}
         bgColor={Color.lavender}
         color={Color.darkLavender}>
         Activities
@@ -55,7 +57,7 @@ const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
         <PostOptions
         bgColor={Color.lightcoral}
         color={Color.darkCoral}
-        onClick={()=>gotoPostUploader("questions")}
+        onClick={()=>gotoPostUploader(postType.question)}
         >
          Questions
         </PostOptions>
@@ -65,14 +67,14 @@ const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
         <PostOptions
           bgColor={Color.moccasin}
           color={Color.darkMoccasin}
-          onClick={()=>gotoPostUploader("classes")}
+          onClick={()=>gotoPostUploader(postType.classes)}
           >
          Classes
         </PostOptions>
         <PostOptions
           bgColor={Color.violet}
           color={Color.darkViolet}
-          onClick={()=>gotoPostUploader("examination")}
+          onClick={()=>gotoPostUploader(postType.examination)}
           >
          Examination
         </PostOptions>

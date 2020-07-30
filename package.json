@@ -9,7 +9,7 @@
     "client": "npm run start --prefix client",
     "start-all": "concurrently \"npm run server\" \"npm run client\"",
     "schema:download": "apollo schema:download --endpoint=http://localhost:4000",
-    "codegen:generate": "apollo client:codegen --outputFlat=./client/src/SchemaTypes/schemaTypes.ts --endpoint=http://localhost:4000/  --includes=./client/src/**/*.ts --target=typescript"
+    "codegen:generate": "apollo client:codegen --outputFlat=./client/src/SchemaTypes/schemaTypes.ts --endpoint=http://localhost:4000/  --includes=./client/src/**/*.ts --excludes=./client/src/schema/local/*.ts --target=typescript"
   },
   "keywords": [],
   "author": "",

@@ -9,9 +9,12 @@ export const postType = gql`
     extend type Mutation{
         updatePost(post_type: postType! post_id: ID! updates: newPost!): UPost!
         upload: Upload!
-        post(post_type: postType! post: newPost!):UPost!
+        post(post: newPost!): Flash!
     }
 
+    type Flash {
+        success: Boolean!
+    }
      # For Post
      input newPost{
         post_type: postType! # For now Giving String. Later, will be used enum PostType 
@@ -20,10 +23,8 @@ export const postType = gql`
         class: Int
         chapter: String
         group: group # Later, a enum will be used
-        teacher: String
         subject: String
         section: String
-        class_roll: Int
         files: Upload
     }
 
@@ -38,7 +39,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
-        uploaderId: String!
+        uploaderId: ID!
         date: String!
         file: [file]
         subject: String
@@ -53,7 +54,7 @@ export const postType = gql`
         post_type: postType! #Enum for later
         title: String!
         description: String!
-        uploaderId: String!
+        uploaderId: ID!
         date: String!
         file: [file]
     }
@@ -62,7 +63,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
-        uploaderId: String!
+        uploaderId: ID!
         date: String!
         class: Int!
         chapter: String!
@@ -76,7 +77,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
-        uploaderId: String!
+        uploaderId: ID!
         date: String!
         class: Int!
         subject: String! 
@@ -88,7 +89,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
-        uploaderId: String!
+        uploaderId: ID!
         date: String!
         class: Int!
         section: String!

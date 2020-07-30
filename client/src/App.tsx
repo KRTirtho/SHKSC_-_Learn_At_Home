@@ -37,12 +37,14 @@ const App:FC<RouteComponentProps> = ({location})=>{
   const {data: local_data,} = useQuery<LoginLocal>(LOGIN_LOCAL)
   // SignedUp local state
   const {data: local_signed_up} = useQuery<SignedUp>(SIGNED_UP)
-
+  
+  const login = data?.authorize?.login
+  
   useEffect(()=>{
-    if(data?.authorize?.login){
+    if(login){
       client.writeData({data: {loggedIn: true}})
     }
-  }, [local_data, data?.authorize?.login])
+  }, [local_data, login, client])
   
   return <>
         {/* If logged in then ca be accessed */}

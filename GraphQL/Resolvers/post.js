@@ -18,21 +18,19 @@ export const posts = (_, {post_type}, context)=>{
     })
 }
 
-export const post = (_, {post}, context, info)=>{
-    // disabled for development
-    // if(!context.isAuthenticated)throw new AuthenticationError("User unauthorized")
-    const newPost = new Post({...post});
-    
-    return newPost.save()
-    .then(posts=>{
+export const post = (_, {post}, {isAuthenticated, user}, info)=>{
+    if(!isAuthenticated)throw new AuthenticationError("User unauthorized")
+        const newPost = new Post({uploadedBy: user._id, ...post});
+        return newPost.save()
+        .then(posts=>{
         if(!posts)throw new Error("Failed to post")
-        return posts
+        return {success: true}
     })
-                .catch(err=>{
-                    console.log("Post Mutating Error: ", err)
-                    throw err
-                })
-            }
+    .catch(err=>{
+        console.log("POST MUTATION ERROR: ", err)
+        throw err
+    })
+}
             
 /* Resolver for uploaded files */
 export const upload = (_, args)=>{

@@ -1,6 +1,6 @@
 import React, { FC, JSXElementConstructor, useEffect, useState } from 'react'
 import { ModalBG, ModalBody, ModalCard, ModalHeader, CloseButton } from './core/modal.core'
-import styled, { StyledComponent, StyledFunction } from 'styled-components'
+import styled from 'styled-components'
 import { Button } from '../Static/Buttons'
 import { Color } from '../../utils/Assets/CSSProps'
 

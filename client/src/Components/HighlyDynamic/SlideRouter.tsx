@@ -40,7 +40,7 @@ const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children})
             setCurrentPathOrder(newPathOrder)
             setPageDirection(direction)
         }
-    })
+    }, [location.pathname, pages, currentPath, currentPathOrder])
 
     return (
         <TransitionGroup className={`${pageDirection}`}>

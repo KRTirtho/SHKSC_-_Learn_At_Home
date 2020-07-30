@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserAlt, faCamera } from "../../../utils/Assets/fontawesome";
 import { SubmitButton, TransitionSlideParent } from "../../Static/Forms";
@@ -32,7 +32,7 @@ const SetProfilePicture = () => {
   }
 
   // Uploading file to backend
-  const [setAvatar, {error}] = useMutation(SET_AVATAR)
+  const [setAvatar] = useMutation(SET_AVATAR)
 
   const handleSubmit = (e:any):void=>{
     e.preventDefault()

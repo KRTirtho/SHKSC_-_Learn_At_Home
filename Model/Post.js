@@ -14,8 +14,7 @@ const postSchema = new mongoose.Schema({
     class: Number,
     group: String,
     section: String,
-    class_roll: Number,
-    teacher: String,
+    uploadedBy: {type: mongoose.SchemaTypes.ObjectId, required: true}
 })
 
 const Post = mongoose.model("Post", postSchema)
