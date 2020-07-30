@@ -7,6 +7,7 @@ import { Color } from '../../../utils/Assets/CSSProps'
 import { HoverActive } from '../../Static/HoverActive'
 import { useHistory } from 'react-router-dom'
 import { roleValue } from '../../../SchemaTypes/schemaTypes'
+import { SelectionOptions } from '../../Static/Buttons'
 
 const RoleSelection:FC = ()=>{
 
@@ -60,12 +61,7 @@ const RoleBody = styled.div`
     margin: 5px 10px;
 `
 
-const RoleOption = styled(HoverActive)`
-    display: flex;
-    align-items: center;
-    font-size: 2rem;
-    margin: 0 10px;
-    padding: 10px;
+const RoleOption = styled(SelectionOptions)`
     background-color: #ffd17c;
     color: #c15e30;
     svg{

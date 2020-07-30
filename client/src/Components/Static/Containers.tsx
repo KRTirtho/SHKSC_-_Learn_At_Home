@@ -25,3 +25,9 @@ export const PageContainer = styled.div`
     align-items: center;
     width: 100%;
 `
+
+export const FlexCenterContainer = styled.pattern`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

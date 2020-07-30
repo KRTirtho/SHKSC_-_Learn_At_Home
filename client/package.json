@@ -60,6 +60,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-transition-group": "^4.4.0",
     "@types/styled-components": "^5.1.1",
+    "@types/react-loader-spinner": "^0.0.1",
     "@types/yup": "^0.29.3",
     "apollo": "^2.30.1"
   }

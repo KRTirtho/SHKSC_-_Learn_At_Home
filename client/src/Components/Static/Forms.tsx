@@ -3,7 +3,8 @@ import styled, { css } from "styled-components";
 import { Color } from "../../utils/Assets/CSSProps";
 import { HoverActive } from "./HoverActive";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLongArrowAltLeft } from "../../utils/Assets/fontawesome";
+import { faLongArrowAltLeft, faFileAlt } from "../../utils/Assets/fontawesome";
+import { PrimaryButton } from "./Buttons";
 
 type CommonInputProps<T extends{}> = T& {
     error?: string|boolean,
@@ -150,9 +151,9 @@ const BackButtonStyle = styled(HoverActive)`
     border: none;
     background-color: ${Color.secondaryBackground};
 `
-export const BackButton:FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({onClick})=>{
+export const BackButton:FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({onClick, ...rest})=>{
     return (
-        <BackButtonStyle type="button" onClick={onClick} as="button" ><FontAwesomeIcon icon={faLongArrowAltLeft}/></BackButtonStyle>
+        <BackButtonStyle {...rest} type="button" onClick={onClick} as="button" ><FontAwesomeIcon icon={faLongArrowAltLeft}/></BackButtonStyle>
     )
 }
 
@@ -229,3 +230,27 @@ export const TransitionSlideParent = styled.div<{noVerticalCenter?:boolean, minH
     }}
 ` 
 
+export const ResponsiveTextArea = styled.textarea`
+    width: 99.5%;
+    max-width: 99.5%;
+    min-height: 5rem;
+    margin: 5px 0;
+`
+
+const InputFileButtonStyle = styled(PrimaryButton)`
+    input[type="file"]{
+        display: none;
+    }
+    svg{
+        margin: 0 5px;
+    }
+`
+export const InputFileButton:FC<{body:any}&InputHTMLAttributes<HTMLInputElement>> = ({body, ...rest})=>{
+    return (
+        <InputFileButtonStyle as="label">
+            {body}
+            <FontAwesomeIcon icon={faFileAlt}/>
+            <input type="file" {...rest}/>
+        </InputFileButtonStyle>
+    )
+}

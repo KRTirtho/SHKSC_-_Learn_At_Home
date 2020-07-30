@@ -15,7 +15,7 @@ import { AUTHORIZE_USER } from './schema/query/Authorize';
 import Welcome from './Components/Special/Welcome';
 import { LOGIN_LOCAL, SIGNED_UP } from './schema/local/Query';
 import NotFound from './Components/Special/NotFound';
-import { LoginLocal, SignedUp } from './SchemaTypes/local/LocalShemaTypes';
+import { LoginLocal, SignedUp } from './SchemaTypes/local/LocalSchemaTypes';
 /* Pages import */
 const Home = lazy(()=>import('./Pages/Home'))
 const Activities = lazy(()=>import('./Pages/Activities'))
@@ -27,6 +27,7 @@ const Profile = lazy(()=>import('./Pages/Profile'))
 const Ask = lazy(()=>import('./Pages/Ask'))
 const Admin = lazy(()=>import('./Pages/Admin'))
 const Classes = lazy(()=>import('./Pages/Classes'))
+const Post = lazy(()=>import("./Components/Posts/Post"))
 
 const App:FC<RouteComponentProps> = ({location})=>{
   
@@ -56,15 +57,16 @@ const App:FC<RouteComponentProps> = ({location})=>{
             {!error && local_data?.loggedIn?
             <Switch location={location}>
               <Route exact path="/"><Home/></Route>
-              <Route exact path="/classes"><Classes/></Route>
-              <Route exact path="/activities"><Activities/></Route>
-              <Route exact path="/principal"><Principal/></Route>
-              <Route exact path="/announces"><Announces/></Route>
-              <Route exact path="/examination"><Examination/></Route>
-              <Route exact path="/settings"><Settings/></Route>
-              <Route exact path="/:userId/profile"><Profile/></Route>
-              <Route exact path="/ask"><Ask/></Route>
-              <Route exact path="/admin"><Admin/></Route>
+              <Route path="/classes"><Classes/></Route>
+              <Route path="/activities"><Activities/></Route>
+              <Route path="/principal"><Principal/></Route>
+              <Route path="/announces"><Announces/></Route>
+              <Route path="/examination"><Examination/></Route>
+              <Route path="/settings"><Settings/></Route>
+              <Route path="/:userId/profile"><Profile/></Route>
+              <Route path="/ask"><Ask/></Route>
+              <Route path="/admin"><Admin/></Route>
+              <Route path="/post"><Post/></Route>
               <Route path="*"><NotFound/></Route>
             </Switch>
             :
@@ -72,7 +74,7 @@ const App:FC<RouteComponentProps> = ({location})=>{
               <Route path="/" exact><Login /></Route>
               <Route path="/roles" component={RoleSelection} />
               <Route path="/signup" component={SignUpForm} />
-              {local_signed_up?.signedUp &&<Route path="/set-avatar" component={SetProfilePicture}/>}
+              {local_signed_up?.signedUp && <Route path="/set-avatar" component={SetProfilePicture}/>}
               {local_signed_up?.signedUp && <Route path="/welcome" component={Welcome}/>}
               <Route path="*"><NotFound/></Route>
             </SlideRouter>

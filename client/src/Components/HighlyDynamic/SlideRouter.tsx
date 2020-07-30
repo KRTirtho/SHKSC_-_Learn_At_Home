@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { Switch, withRouter, RouteComponentProps } from 'react-router-dom'
+import { Switch, RouteComponentProps, withRouter } from 'react-router-dom'
 
 type SlideConfig = {
-    children: any
+    children: any,
 }
 
 const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children}) => {
@@ -22,7 +22,10 @@ const SlideRouter:FC<SlideConfig & RouteComponentProps> = ({location, children})
         pages.filter(({ path }) => path === location.pathname)[0]?.order
     )
     // Getting the key from path
-    const currentKey = location.pathname.split('/')[1] || '/'
+    const keyArr = location.pathname.split("/")
+    
+    const currentKey = keyArr[keyArr.length-1] || '/'
+
     useEffect(() => {
         /* The new path which is found after second render while changing routes.*/
         const newPath = location.pathname

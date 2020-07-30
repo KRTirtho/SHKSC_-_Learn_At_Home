@@ -19,10 +19,16 @@ import {
     faAngleRight,
     faLongArrowAltLeft,
     faCamera,
-    faUserAlt
+    faUserAlt,
+    faPlus,
+    faFileAlt,
+    faEyeSlash
 } from "@fortawesome/free-solid-svg-icons"
 
 export {
+    faEyeSlash,
+    faFileAlt,
+    faPlus,
     faUserAlt,
     faCamera,
     faLongArrowAltLeft,

@@ -111,11 +111,11 @@ const MainContainer = styled.div`
 
 const FileContainer = styled.div`
     width: 100%;
-    height: 30vh;
+    /* height: 30vh; */
     user-select: none;
     img, video{
         -webkit-user-drag: none;
-        height:100%;
+        height:auto;
         width: 100%;
     }
 `

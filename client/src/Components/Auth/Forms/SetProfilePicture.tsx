@@ -17,10 +17,17 @@ const SetProfilePicture = () => {
   const [uploadImage, setUploadImage] = useState('')
 
   const handleImage = (e:any)=>{
-    if(e.target.files[0]){
+    const file = e.target.files[0]
+    
+    if(file && (
+      file.type==="image/png" 
+      || file.type==="image/jpg"
+      || file.type==="image/svg"
+      || file.type==="image/svg"
+    )){
       setEditing(true)
-      setImage(URL.createObjectURL(e.target.files[0]))
-      setUploadImage(e.target.files[0])
+      setImage(URL.createObjectURL(file))
+      setUploadImage(file)
     }
   }
 
@@ -51,7 +58,7 @@ const SetProfilePicture = () => {
                 </LabelForFile>
             </ImageContainer>
           <form onSubmit={handleSubmit}>
-            <input style={{display: "none"}} type="file" onChange={handleImage} name="avatar" id="avatar" />
+            <input style={{display: "none"}} type="file" onChange={handleImage} name="avatar" id="avatar" accept="image/png, image/jpeg, image/gif, image/svg+xml"/>
             <div style={{marginTop: 20, width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
             <SubmitButton disabled={!uploadImage} type="submit">
               Set Avatar

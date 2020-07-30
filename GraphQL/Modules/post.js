@@ -11,7 +11,7 @@ export const postType = gql`
         upload: Upload!
         post(post_type: postType! post: newPost!):UPost!
     }
-    
+
      # For Post
      input newPost{
         post_type: postType! # For now Giving String. Later, will be used enum PostType 
@@ -24,6 +24,7 @@ export const postType = gql`
         subject: String
         section: String
         class_roll: Int
+        files: Upload
     }
 
     type file{
@@ -37,6 +38,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
+        uploaderId: String!
         date: String!
         file: [file]
         subject: String
@@ -51,6 +53,7 @@ export const postType = gql`
         post_type: postType! #Enum for later
         title: String!
         description: String!
+        uploaderId: String!
         date: String!
         file: [file]
     }
@@ -59,6 +62,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
+        uploaderId: String!
         date: String!
         class: Int!
         chapter: String!
@@ -72,6 +76,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
+        uploaderId: String!
         date: String!
         class: Int!
         subject: String! 
@@ -83,6 +88,7 @@ export const postType = gql`
         post_type: postType!
         title: String!
         description: String!
+        uploaderId: String!
         date: String!
         class: Int!
         section: String!

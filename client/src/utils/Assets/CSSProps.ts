@@ -15,7 +15,17 @@ export const Color = {
     underline: "#888",
     placeholder: "#666" ,
     border: "#888",
-    cardBorder: "#bbb"
+    cardBorder: "#bbb",
+    violet: "#cc82ee",
+    darkViolet: "#7a307a",
+    lavender: "#cfcff1",
+    darkLavender: "#7878c0",
+    lightcoral: "#faa6a6",
+    darkCoral: "#af512e",
+    lightsalmon: "#ffa07a",
+    darkSalmon: "#c0a025",
+    moccasin: "#ffe4b5",
+    darkMoccasin: "#9c8d74"
 }
 
 export const TransitionTime = {

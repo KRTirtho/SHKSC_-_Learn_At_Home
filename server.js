@@ -22,7 +22,6 @@ const server = new ApolloServer({
     resolvers: Packer.resolvers,
     context({req}){
     // Check for authorization
-    
         const authHeader = req.headers.authorization
         // for no header of authorization
         if(authHeader){
@@ -36,12 +35,16 @@ const server = new ApolloServer({
                         email: match.email
                     }
                 }
+                else{
+                    return {isAuthenticated: false}
+                }
+            }
+            else {
+                return {isAuthenticated: false}
             }
         }
         else {
-            return {
-                isAuthenticated: false
-            }
+            return {isAuthenticated: false}
         }
     
 }})

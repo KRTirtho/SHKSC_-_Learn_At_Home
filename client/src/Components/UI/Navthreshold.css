@@ -43,7 +43,11 @@
   }
   
   .circular-menu.active .menu-item-4 {
-    -webkit-transform: translate3d(-7em,1em,0);
+    -webkit-transform: translate3d(-7em,.1em,0);
             transform: translate3d(-7em,0.1em,0);
   }
   
+  .circular-menu.active .menu-item-5 {
+    -webkit-transform: translate3d(-3em,3em,0);
+            transform: translate3d(-2.8em,-3em,0);
+  }

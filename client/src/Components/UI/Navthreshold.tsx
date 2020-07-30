@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useState, useRef} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // eslint-disable-next-line
-import {faBookOpen, faQuestion, faUser, faWrench} from "../../utils/Assets/fontawesome"
+import {faPlus, faBookOpen, faQuestion, faUser, faWrench} from "../../utils/Assets/fontawesome"
 import styled, { css } from 'styled-components'
 import { CircularButton } from '../Static/Buttons'
 import "./Navthreshold.css"
@@ -45,6 +45,11 @@ const NavThreshold: FunctionComponent = () => {
             <Link to="/settings">
             <MenuItem className="menu-item menu-item-4">
                 <FontAwesomeIcon icon={faWrench}/>
+            </MenuItem>
+            </Link>
+            <Link to="/post/select-post_type">
+            <MenuItem className="menu-item menu-item-5">
+                <FontAwesomeIcon icon={faPlus}/>
             </MenuItem>
             </Link>
             </menu>

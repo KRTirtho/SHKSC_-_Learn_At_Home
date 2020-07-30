@@ -37,3 +37,11 @@ export const SemiCircularButton = styled(HoverActive)`
         outline: none;
         padding: 5px 15px;
 `
+
+export const SelectionOptions= styled(HoverActive)`
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        margin: 0 10px;
+        padding: 10px;
+`
