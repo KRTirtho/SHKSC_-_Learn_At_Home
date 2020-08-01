@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const SET_AVATAR = gql`
     mutation SetAvatar($file: Upload!){

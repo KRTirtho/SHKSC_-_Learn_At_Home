@@ -1,5 +1,21 @@
 import { gql } from "apollo-server"
 import { posts, post, upload, updatePost } from "../Resolvers/post"
+//% uploadedBy represents the name of the poster 
+const postCommonType = `
+    _id: ID!
+    post_type: postType!
+    title: String!
+    description: String!
+    uploadedBy: String!
+    avatar_url: String
+    date: String!
+    file: [file]
+`
+const postSecondaryCommon = `
+    class: Int!
+    subject: String!
+    group: group
+`
 
 export const postType = gql`
     extend type Query{
@@ -30,77 +46,41 @@ export const postType = gql`
 
     type file{
         url: String!
+        public_id: ID!
+        file_type: String!
     }
 
     union UPost = AnnouncementsPrincipalActivities | Classes | Examination | Question
     
     type AllPost{
-        _id: ID!
-        post_type: postType!
-        title: String!
-        description: String!
-        uploaderId: ID!
-        date: String!
-        file: [file]
+        class: Int
         subject: String
-        section: String
-        class: String
         group: group
-        class_roll: String
-        teacher: String
+        section: String
+        class_roll: Int
+        chapter: String
+        ${postCommonType}
     }
     type AnnouncementsPrincipalActivities {
-        _id: ID!
-        post_type: postType! #Enum for later
-        title: String!
-        description: String!
-        uploaderId: ID!
-        date: String!
-        file: [file]
+        ${postCommonType}
     }
     type Classes {
-        _id: ID!
-        post_type: postType!
-        title: String!
-        description: String!
-        uploaderId: ID!
-        date: String!
-        class: Int!
         chapter: String!
-        group: group! # Later, a enum will be used
-        teacher: String!
-        subject: String!
-        file: [file]
+        ${postSecondaryCommon}
+        ${postCommonType}
     }
     type Examination{
-        _id: ID!
-        post_type: postType!
-        title: String!
-        description: String!
-        uploaderId: ID!
-        date: String!
-        class: Int!
-        subject: String! 
-        group: group! 
-        file: [file]
+        ${postSecondaryCommon}
+        ${postCommonType}
     }
     type Question {
-        _id: ID!
-        post_type: postType!
-        title: String!
-        description: String!
-        uploaderId: ID!
-        date: String!
-        class: Int!
         section: String!
         class_roll: Int!
-        subject: String!
-        group: group!
-        file: [file]
+        ${postSecondaryCommon}
+        ${postCommonType}
     }
     # For allowed Post Types
     enum postType{
-        all # For getting all the post
         announcement
         principal
         activities
@@ -138,7 +118,6 @@ export const postType = gql`
             }
         },
         postType: {
-            all: "all",
             announcement: "announcement",
             principal: "principal",
             activities: "activities",

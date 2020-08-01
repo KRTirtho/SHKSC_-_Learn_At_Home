@@ -5,41 +5,26 @@ import PostFiles from '../Media/PostFiles'
 import Threetype from './Review/Threetype'
 import { CommonContainer } from '../Static/Containers'
 import AdminPostHeader from './Headers/AdminPost.header'
+import { TSecondaryCardProps } from './CardPropTypes'
 
 
-type ClassesProps = {
-    avatar_url: string,
-    post_type: string,
-    date: string|number,
-    posted_by?: string,
-    _class: number,
-    chapter: string,
-    description: string,
-    subject: string,
-    title: string,
-    group?: string,
-    teacher_name?: string,
-    files?: {url: string}[]
-}
-
-const Classes:FC<ClassesProps> = ({avatar_url, post_type, date, posted_by,
-_class, chapter, description, subject, title, group, files, teacher_name}) => {
+const Classes:FC<TSecondaryCardProps<{chapter: string}>> = ({avatar_url, post_type, date, uploadedBy,
+_class, chapter, description, subject, title, group, files}) => {
     return (
         <CommonContainer>
             {/* Header part of the post */}
-            {posted_by==="admin"?
+            {uploadedBy==="admin"?
             <AdminPostHeader 
                 avatar_url={avatar_url}
                 date={date}
                 post_type={post_type}
-                teacher_name={teacher_name}
             />
             :
             <CommonHeaders
              avatar_url={avatar_url}
              post_type={post_type}
              date={date}
-             posted_by={posted_by}
+             uploadedBy={uploadedBy}
              />}
 
              {/* Description */}

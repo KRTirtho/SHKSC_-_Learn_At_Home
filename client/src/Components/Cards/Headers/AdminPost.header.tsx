@@ -7,7 +7,7 @@ type AdminPostHeaderProps = {
     post_type: string,
     date: string | number,
     teacher_name?: string,
-    avatar_url: string,
+    avatar_url: string|null,
 }
 
 const AdminPostHeader:FC<AdminPostHeaderProps> = ({post_type, date, teacher_name, avatar_url}) => {
@@ -16,7 +16,7 @@ const AdminPostHeader:FC<AdminPostHeaderProps> = ({post_type, date, teacher_name
     return (
         <Container>
             {/* Post Name */}
-            <img src={avatar_url} alt=""/>
+            <img src={avatar_url??''} alt=""/>
             {/* name of the poster */}
             <div>
             <h3>

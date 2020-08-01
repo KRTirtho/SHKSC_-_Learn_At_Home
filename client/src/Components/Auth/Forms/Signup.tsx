@@ -3,13 +3,14 @@ import {useFormik} from "formik"
 import { FormContainer, CommonForm, InputWithLabels, HorizontalContainer, SubmitButton, BackButton, TransitionSlideParent} from "../../Static/Forms"
 import * as Yup from "yup"
 import { PrimaryButton } from '../../Static/Buttons'
-import { useMutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 import styled from 'styled-components'
 import ButtonLoader from '../../../ComponentLoaders/ButtonLoader'
 import { useHistory, useLocation } from 'react-router-dom'
 import ConditionalModal from '../../Modals/Conditional.modal'
 import { SIGN_UP } from '../../../schema/mutation/Signup'
 import { SignUp, SignUpVariables, roleValue, shiftValue } from '../../../SchemaTypes/schemaTypes'
+import { SIGNED_UP } from '../../../schema/local/Query'
 
 /**
  * @description Tow dimensional Menu will appear
@@ -74,12 +75,13 @@ const SignUpForm:FC = ()=>{
                     }
                 }
             }).then(({data})=>{
-                if(data?.signUp?.token && data?.signUp?.token?.length>0){
-                    localStorage.setItem("auth_token", JSON.stringify(data?.signUp?.token))
+                if(data?.signUp && data.signUp.tokens){
+                localStorage.setItem("auth_token", data.signUp.tokens.accessToken)
+                localStorage.setItem("refresh_token", data.signUp.tokens.refreshToken)
                     resetForm()
                     setSubmitting(false)
                     history.push("/set-avatar")
-                    client?.writeData({data: {signedUp: true}})
+                    client?.writeQuery({query: SIGNED_UP, data: {signedUp: true}})
                 }
                 setSubmitting(false)
             })

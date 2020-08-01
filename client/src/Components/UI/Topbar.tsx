@@ -34,7 +34,7 @@ const Topbar: React.FC = () => {
 export default Topbar;
 
 
-const TopbarContainer = styled.div`
+export const TopbarContainer = styled.div`
     position: fixed;
     top: 0;
     width: 100%;

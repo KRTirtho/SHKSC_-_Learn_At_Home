@@ -3,37 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {InMemoryCache, ApolloClient} from "apollo-boost"
-import {ApolloProvider} from "react-apollo"
 import { BrowserRouter } from 'react-router-dom';
-import {createUploadLink} from "apollo-upload-client"
-// Local State
-import {typeDefs, resolvers} from "./state/typeDefs"
+import { createUploadLink } from 'apollo-upload-client';
+import  {ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { typeDefs, resolvers } from './state/typeDefs';
+import {from, ApolloLink} from "@apollo/client/core"
+import { LOGIN_LOCAL, SIGNED_UP } from './schema/local/Query';
 
-const token = localStorage.getItem("auth_token")
-
-const clientConfig = {
-  uri: "http://localhost:4000/",
-  headers: {}
-}
-
-if(token && JSON.parse(token)!=="null"&&JSON.parse(token)!=="undefined"){
-  clientConfig.headers = {
-    "Authorization": "Bearer "+JSON.parse(token)
-  }
-}
+const link = createUploadLink({uri: "http://localhost:4000"})
 
 const cache = new InMemoryCache()
 
-const client = new ApolloClient({link: createUploadLink(clientConfig),
-                                 cache, 
-                                 typeDefs,
-                                 resolvers})
-                                 
+const auth_link = new ApolloLink((operation, forward)=>{
+  const refresh_token = localStorage.getItem("refresh_token")
+  const auth_token = localStorage.getItem("auth_token")
+  operation.setContext({
+    headers: {
+      "Authorization": `Bearer ${auth_token??null}`,
+      "Refresh": `Bearer ${refresh_token??null}`}
+    })
+    return forward(operation)
+  })
+                                                            // ! Temporary Fix
+const client = new ApolloClient({link: auth_link.concat((link as unknown) as ApolloLink) , cache, typeDefs, resolvers})
 
-// initializing local state  
+cache.writeQuery({query: LOGIN_LOCAL, data: {loggedIn: false}})
+cache.writeQuery({query: SIGNED_UP, data: {signedUp: false}})
 
-cache.writeData({data: {loggedIn: false, signedUp: false}})
                                  
 ReactDOM.render(
   <ApolloProvider client={client}>

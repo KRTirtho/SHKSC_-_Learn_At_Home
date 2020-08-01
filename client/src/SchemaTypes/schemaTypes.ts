@@ -7,12 +7,18 @@
 // GraphQL mutation operation: Login
 // ====================================================
 
+export interface Login_login_tokens {
+  __typename: "Tokens";
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface Login_login {
   __typename: "User";
   _id: string;
   role: roleValue | null;
   email: string | null;
-  token: string | null;
+  tokens: Login_login_tokens | null;
 }
 
 export interface Login {
@@ -36,7 +42,6 @@ export interface LoginVariables {
 export interface Post_post {
   __typename: "Flash";
   success: boolean;
-
 }
 
 export interface Post {
@@ -79,12 +84,18 @@ export interface SetAvatarVariables {
 // GraphQL mutation operation: SignUp
 // ====================================================
 
+export interface SignUp_signUp_tokens {
+  __typename: "Tokens";
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface SignUp_signUp {
   __typename: "User";
   _id: string;
   role: roleValue | null;
   email: string | null;
-  token: string | null;
+  tokens: SignUp_signUp_tokens | null;
 }
 
 export interface SignUp {
@@ -101,6 +112,43 @@ export interface SignUpVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: AllPost
+// ====================================================
+
+export interface AllPost_allPost_file {
+  __typename: "file";
+  url: string;
+  file_type: string;
+}
+
+export interface AllPost_allPost {
+  __typename: "AllPost";
+  _id: string;
+  post_type: postType;
+  title: string;
+  description: string;
+  uploadedBy: string;
+  avatar_url: string | null;
+  date: string;
+  file: (AllPost_allPost_file | null)[] | null;
+  class: number | null;
+  subject: string | null;
+  group: group | null;
+  section: string | null;
+  chapter: string | null;
+  class_roll: number | null;
+}
+
+export interface AllPost {
+  allPost: AllPost_allPost[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: Authorize
 // ====================================================
 
@@ -109,12 +157,22 @@ export interface Authorize_authorize_credentials {
   role: roleValue | null;
   _id: string;
   first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+}
+
+export interface Authorize_authorize_tokens {
+  __typename: "Tokens";
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface Authorize_authorize {
   __typename: "authorizeUser";
-  login: boolean | null;
+  login: boolean;
   credentials: Authorize_authorize_credentials | null;
+  expired: boolean | null;
+  tokens: Authorize_authorize_tokens | null;
 }
 
 export interface Authorize {

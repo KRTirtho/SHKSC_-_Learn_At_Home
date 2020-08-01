@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const LOGIN_LOCAL = gql`
     query LoginLocal{

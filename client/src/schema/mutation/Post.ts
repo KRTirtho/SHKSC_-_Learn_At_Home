@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const POST_UPLOAD = gql`
 mutation Post($post: newPost!){

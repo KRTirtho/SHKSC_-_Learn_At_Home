@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
 import { CommonTitle, PropertyTick, CommonDescription } from '../../Static/TypoGraphy'
+import { group } from '../../../SchemaTypes/schemaTypes'
 
 type ExaminationDescriptionProp = {
     title: string,
     _class: number,
     subject: string,
-    group?: string,
+    group?: group,
     description: string
 }
 

@@ -7,6 +7,8 @@ const postSchema = new mongoose.Schema({
     date: {type:Date, required: true, default: Date.now()},
     file: [{
         url: String, 
+        public_id: String,
+        file_type: String,
         _id: false
      }],
     subject: String,
@@ -14,7 +16,9 @@ const postSchema = new mongoose.Schema({
     class: Number,
     group: String,
     section: String,
-    uploadedBy: {type: mongoose.SchemaTypes.ObjectId, required: true}
+    uploaderId: {type: mongoose.SchemaTypes.ObjectId, required: true},
+    uploadedBy: {type: String, required: true},
+    avatar_url: String
 })
 
 const Post = mongoose.model("Post", postSchema)

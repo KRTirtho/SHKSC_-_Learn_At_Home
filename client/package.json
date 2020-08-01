@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/react-hooks": "^3.1.5",
+    "@apollo/client": "^3.1.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "apollo-boost": "^0.4.9",
     "apollo-upload-client": "^14.1.0",
     "cloudinary-core": "^2.10.3",
     "cloudinary-video-player": "^1.4.1",
@@ -18,15 +17,13 @@
     "graphql": "^15.3.0",
     "lodash": "^4.17.19",
     "react": "^16.13.1",
-    "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
-    "react-loader-spinner": "^3.1.14",
+    "react-loader-spinner": "file:/./temp/react-loader-spinner-3.1.14.tgz",
     "react-multi-carousel": "^2.5.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-transition-group": "^4.4.1",
     "styled-components": "^5.1.1",
-    "typescript": "^3.9.6",
     "yup": "^0.29.1"
   },
   "scripts": {
@@ -60,8 +57,8 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-transition-group": "^4.4.0",
     "@types/styled-components": "^5.1.1",
-    "@types/react-loader-spinner": "^0.0.1",
     "@types/yup": "^0.29.3",
+    "typescript": "^3.9.6",
     "apollo": "^2.30.1"
   }
 }

@@ -3,7 +3,7 @@ import {useFormik} from "formik"
 import { InputWithError, SubmitButton, CommonForm, FormContainer, Brand, TransitionSlideParent } from '../../Static/Forms';
 import styled from 'styled-components';
 import { Color } from '../../../utils/Assets/CSSProps';
-import {useMutation} from "react-apollo"
+import {useMutation} from "@apollo/client"
 import ConditionalModal from "../../Modals/Conditional.modal";
 import * as Yup from "yup"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,7 @@ import ButtonLoader from '../../../ComponentLoaders/ButtonLoader';
 import { Link } from 'react-router-dom';
 import {Login as ILogin, LoginVariables} from "../../../SchemaTypes/schemaTypes"
 import { LOGIN_QUERY } from '../../../schema/mutation/Login';
+import { LOGIN_LOCAL } from '../../../schema/local/Query';
 
 const Login:FC = () => {
   const {values,
@@ -28,12 +29,13 @@ const Login:FC = () => {
             email: values.email,
             password: values.password,
           },
-        }).then(data=>{
-          if(data){
-            localStorage.setItem("auth_token", JSON.stringify(data.data?.login?.token))
+        }).then(({data})=>{
+          if(data?.login && data.login.tokens){
+            localStorage.setItem("auth_token", data.login.tokens.accessToken)
+            localStorage.setItem("refresh_token", data.login.tokens.refreshToken)
             resetForm()
             //! Temporary Solution
-            client?.writeData({data: {loggedIn: true}})
+            client?.writeQuery({query: LOGIN_LOCAL, data: {loggedIn: true}})
           }
           setSubmitting(false)
         })

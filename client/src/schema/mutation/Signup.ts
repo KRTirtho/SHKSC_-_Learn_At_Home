@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const SIGN_UP = gql`
 mutation SignUp ($user: newUser){
@@ -6,7 +6,10 @@ mutation SignUp ($user: newUser){
               _id
               role
               email
-              token
+              tokens{
+                accessToken
+                refreshToken
+              }
           }
 }
 `

@@ -4,21 +4,10 @@ import AdminPostHeader from './Headers/AdminPost.header'
 import ExaminationDescription from './Description/Examination.description'
 import Twotype from './Review/Twotype'
 import PostFiles from '../Media/PostFiles'
+import { TSecondaryCardProps } from './CardPropTypes'
 
-type ExaminationProps = {
-    avatar_url: string,
-    date: string | number,
-    post_type: string,
-    teacher_name?: string,
-    _class: number,
-    description: string,
-    subject: string,
-    title: string,
-    group?: string,
-    files?: {url: string}[]
-}
 
-const Examination:FC<ExaminationProps> = ({avatar_url, date, post_type, teacher_name, _class, description, subject, title, group, files}) => {
+const Examination:FC<TSecondaryCardProps> = ({avatar_url, date, post_type,  _class, description, subject, title, group, files}) => {
     return (
         <CommonContainer>
             {/* Header of the examination type */}
@@ -26,7 +15,6 @@ const Examination:FC<ExaminationProps> = ({avatar_url, date, post_type, teacher_
                 avatar_url={avatar_url}
                 date={date}
                 post_type={post_type}
-                teacher_name={teacher_name}
             />
 
             {/* Description Part */}

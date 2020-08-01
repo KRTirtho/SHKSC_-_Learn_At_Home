@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const AUTHORIZE_USER = gql`
 query Authorize{
@@ -8,7 +8,14 @@ query Authorize{
             role
             _id
             first_name
+            last_name
+            email
             }
+         expired
+         tokens{
+            accessToken
+            refreshToken
+         }
       }
 }
 `

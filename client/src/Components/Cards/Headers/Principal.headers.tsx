@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import { Color } from '../../../utils/Assets/CSSProps'
 
 type PrincipalHeadersProps = {
-    avatar_url: string,
+    avatar_url: string|null,
     date: number | string
 }
 
 const PrincipalHeaders:FC<PrincipalHeadersProps> = ({date, avatar_url}) => {
     return (
         <Container>
-            <img src={"./favicon.ico"} alt="principal"/>
+            <img src={avatar_url??''} alt="principal"/>
             <h3>Principal</h3>
             <pre>{date}</pre>
         </Container>

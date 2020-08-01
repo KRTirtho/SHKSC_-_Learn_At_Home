@@ -4,13 +4,13 @@ import { Color } from '../../../utils/Assets/CSSProps'
 
 type AnnouncesHeaderProps = {
     date: number|string,
-    avatar_url: string,
+    avatar_url: string|null,
 }
 
 const AnnouncesHeader:FC<AnnouncesHeaderProps> = ({date, avatar_url}) => {
     return (
         <Container>
-            <img src={avatar_url} alt="announcement"/>
+            <img src={avatar_url??''} alt="announcement"/>
             <h3>Announcement</h3>
             <pre>{date}</pre>
         </Container>

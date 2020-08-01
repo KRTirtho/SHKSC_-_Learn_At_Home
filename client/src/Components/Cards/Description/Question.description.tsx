@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
 import { CommonTitle, CommonDescription, PropertyTick } from '../../Static/TypoGraphy'
+import { group } from '../../../SchemaTypes/schemaTypes'
 
 type QuestionDescriptionProps = {
     title: string,
     description: string,
-    student_name: string,
     _class: number,
     section: string,
     class_roll: number,
     subject: string,
-    group?: string,
+    group?: group,
 }
 
 const QuestionDescription:FC<QuestionDescriptionProps> = (props) => {

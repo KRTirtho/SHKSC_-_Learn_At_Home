@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
-import jwt from "jsonwebtoken";
 import Packer from "./GraphQL/index"
 import config from "./config"
+import jwtHelpers from "./helpers/jwt.helper";
 
 
 mongoose.connect(config.DB_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err)=>{
@@ -20,32 +20,67 @@ mongoose.set( 'useFindAndModify', false)
 const server = new ApolloServer({
     typeDefs: Packer.typeDefs,
     resolvers: Packer.resolvers,
-    context({req}){
-    // Check for authorization
-        const authHeader = req.headers.authorization
-        // for no header of authorization
-        if(authHeader){
-            const token = authHeader.split(" ")[1]
-            if(token!=="null" ){
-                const match = jwt.verify(token, config.JWT_SECRET)
-                if(match)return{
-                    isAuthenticated: true,
-                    user: {
-                        _id: match._id,
-                        email: match.email
+    async context({req}){
+    
+    try {
+        const {authorization} = req.headers
+        const accessToken = authorization?.split(" ")[1]
+        const verifyAccessToken = await jwtHelpers.verifyAccessToken(accessToken)
+        if(verifyAccessToken){
+            return {
+                isAuthenticated: true,
+                refresh: false,
+                user: verifyAccessToken
+            }
+        }
+        
+    } catch (error) {
+        console.log('AUTHORIZATION ERROR: ', error.message)
+        // If expired then we check the refresh token and generate a new access token
+        const refresh = req.headers.refresh
+        const refreshToken = refresh?.split(" ")[1]
+        console.log(refresh)
+        
+        if(error.message==="jwt expired" && refresh && refreshToken){
+            
+            try {
+                const verifyRefreshToken = await jwtHelpers.verifyRefreshToken(refreshToken)
+                
+                if(verifyRefreshToken){
+                    return {
+                        isAuthenticated: false,
+                        refresh: true,
+                        user: verifyRefreshToken
                     }
                 }
-                else{
-                    return {isAuthenticated: false}
+                
+            } catch (error) {
+                // This time we finally give an error result
+                return {
+                    isAuthenticated: false,
+                    refresh: false,
+                    user: null
                 }
             }
-            else {
-                return {isAuthenticated: false}
+        }
+        else if(error.message==="jwt expired" && !refresh && !refreshToken){
+            console.log("NO REFRESH TOKEN")
+            
+            return {
+                isAuthenticated: false,
+                refresh: false,
+                user: null,
+                expired: true
             }
         }
-        else {
-            return {isAuthenticated: false}
+        else{
+            return {
+                isAuthenticated: false,
+                refresh: false,
+                user: null
+            }
         }
+    }
     
 }})
 

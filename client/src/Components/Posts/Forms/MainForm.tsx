@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, FC, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { useLocation, useHistory,  } from 'react-router-dom'
 import { BackButton, SubmitButton, InputWithError, TransitionSlideParent, FormContainer, ResponsiveTextArea, InputFileButton } from '../../Static/Forms'
 import * as Yup from "yup"
 import { toFirstLetterUppercase } from '../../../utils/Helpers/functions'
 import ButtonLoader from '../../../ComponentLoaders/ButtonLoader'
-import { Color } from '../../../utils/Assets/CSSProps'
 import { PrimaryButton } from '../../Static/Buttons'
 import styled from 'styled-components'
 import { PostFilePreview } from '../AssetPreviews/PostFilePreview'
-import { useMutation } from 'react-apollo'
+import { useMutation } from '@apollo/client'
 import { POST_UPLOAD } from '../../../schema/mutation/Post'
 import { Post, PostVariables, group, postType } from '../../../SchemaTypes/schemaTypes'
 
@@ -41,7 +40,7 @@ import { Post, PostVariables, group, postType } from '../../../SchemaTypes/schem
  * * But use class on mutation variables
   */
 
- const MainForm = () => {
+ const MainForm:FC<{setBarTitle: Function}> = ({setBarTitle}) => {
      const post_type: postType|any = useLocation().state // ! Weak Type 
      const history = useHistory()
      const [files, setFiles] = useState<any>('');
@@ -124,6 +123,11 @@ import { Post, PostVariables, group, postType } from '../../../SchemaTypes/schem
     const [post] = useMutation<Post, PostVariables>(POST_UPLOAD)
 
     const Post_Type = toFirstLetterUppercase(post_type)
+
+    useEffect(()=>{
+        setBarTitle(`Post: ${Post_Type}`)
+    }, [Post_Type, setBarTitle])
+
        
     return (
         <TransitionSlideParent noVerticalCenter={true} style={{margin:"4rem 0", height: "unset"}}>
@@ -132,11 +136,6 @@ import { Post, PostVariables, group, postType } from '../../../SchemaTypes/schem
 
             {/* Forms */}
             <PostFormContainer>
-            <div style={{display: "flex", alignItems: "center"}}>
-            <BackButton style={{marginLeft: 0, marginRight: 5 }} onClick={()=>history.goBack()}/>
-            <h2 style={{color: Color.primaryBlue, margin: "auto"}}>POST: {Post_Type}</h2>
-            </div>
-
             <form onSubmit={handleSubmit}>
                 {/* Elements Coming from common subfields */}
             <InputWithError onBlur={handleBlur} touched={touched.title} error={errors.title} type="text" name="title" value={values.title} onChange={handleChange} placeholder="Title of the post"/>

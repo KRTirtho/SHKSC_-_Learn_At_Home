@@ -1,4 +1,6 @@
 import React from 'react'
+import withNavbar from '../Components/HighlyDynamic/withNavbar'
+import withTopBar from '../Components/HighlyDynamic/withTopBar'
 
 const Principal = () => {
     return (
@@ -8,4 +10,4 @@ const Principal = () => {
     )
 }
 
-export default Principal
+export default withNavbar(withTopBar(Principal))

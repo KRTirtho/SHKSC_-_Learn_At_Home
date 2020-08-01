@@ -32,7 +32,7 @@ const NavThreshold: FunctionComponent = () => {
                 <FontAwesomeIcon icon={faUser}/>
             </MenuItem>
             </Link>
-            <Link to="/ask">
+            <Link to="/questions">
             <MenuItem className="menu-item menu-item-2">
                 <FontAwesomeIcon icon={faQuestion}/>
             </MenuItem>

@@ -4,6 +4,7 @@ import { faPlay } from '../../../utils/Assets/fontawesome'
 import styled from 'styled-components'
 import { Color } from '../../../utils/Assets/CSSProps'
 import { toFirstLetterUppercase } from '../../../utils/Helpers/functions'
+import { postType } from '../../../SchemaTypes/schemaTypes'
 
 /**
  ** This file includes the header type of
@@ -14,14 +15,14 @@ import { toFirstLetterUppercase } from '../../../utils/Helpers/functions'
   */
 
 type CommonHeadersProps = {
-    post_type: string,
-    posted_by?: string,
-    avatar_url: string,
+    post_type: postType,
+    uploadedBy?: string,
+    avatar_url: string|null,
     date: number | string
 }
 
 
-const CommonHeaders:FC<CommonHeadersProps> = ({post_type, posted_by, avatar_url, date}) => {
+const CommonHeaders:FC<CommonHeadersProps> = ({post_type, uploadedBy, avatar_url, date}) => {
     
     const up_post_type:string = toFirstLetterUppercase(post_type)
 
@@ -29,10 +30,10 @@ const CommonHeaders:FC<CommonHeadersProps> = ({post_type, posted_by, avatar_url,
     return (
         <Container>
             {/* Poster Details & post time */}
-                <img src={avatar_url} alt=""/>
+                <img src={avatar_url??''} alt=""/>
                 {/* Poster details */}
                 <PosterContainer>
-                    <p>{posted_by}</p>
+                    <p>{uploadedBy}</p>
                     {/*!!! Date will later be well-formatted  */}
                     <pre>{date}</pre>
                 </PosterContainer>

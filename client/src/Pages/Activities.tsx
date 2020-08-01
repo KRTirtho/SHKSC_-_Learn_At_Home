@@ -1,4 +1,6 @@
 import React from 'react'
+import withNavbar from '../Components/HighlyDynamic/withNavbar'
+import withTopBar from '../Components/HighlyDynamic/withTopBar'
 
 const Activities = () => {
     return (
@@ -8,4 +10,4 @@ const Activities = () => {
     )
 }
 
-export default Activities
+export default withNavbar(withTopBar(Activities))

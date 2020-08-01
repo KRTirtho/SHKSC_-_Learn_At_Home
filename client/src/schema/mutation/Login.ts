@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const LOGIN_QUERY = gql`
 mutation Login($email:String!, $password: String!){
@@ -6,7 +6,10 @@ mutation Login($email:String!, $password: String!){
     _id
     role
     email
-    token
+    tokens{
+      accessToken
+      refreshToken
+    }
   }
 
 }

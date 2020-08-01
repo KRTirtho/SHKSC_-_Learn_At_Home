@@ -2,7 +2,7 @@ import React from 'react'
 import withNavbar from '../Components/HighlyDynamic/withNavbar'
 import withTopBar from '../Components/HighlyDynamic/withTopBar'
 
-const Examination = () => {
+const Questions = () => {
     return (
         <div>
             
@@ -10,4 +10,4 @@ const Examination = () => {
     )
 }
 
-export default withNavbar(withTopBar(Examination))
+export default withNavbar(withTopBar(Questions))

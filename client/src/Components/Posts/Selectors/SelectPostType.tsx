@@ -1,4 +1,4 @@
-import React, { FC, ButtonHTMLAttributes } from "react";
+import React, { FC, ButtonHTMLAttributes, useEffect } from "react";
 import { TransitionSlideParent } from "../../Static/Forms";
 import { SelectionOptions } from "../../Static/Buttons";
 import styled from "styled-components";
@@ -6,7 +6,9 @@ import { useHistory } from "react-router-dom";
 import { Color } from "../../../utils/Assets/CSSProps";
 import {faAngleRight} from "../../../utils/Assets/fontawesome"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { postType } from "../../../SchemaTypes/schemaTypes";
+import { postType, Authorize, roleValue } from "../../../SchemaTypes/schemaTypes";
+import { useApolloClient } from "@apollo/client";
+import { AUTHORIZE_USER } from "../../../schema/query/Authorize";
 
 
 /**
@@ -25,25 +27,34 @@ import { postType } from "../../../SchemaTypes/schemaTypes";
         * Examination
         * Announces
         * Principal
- * Source: __Role__ Retrieved from cache
+ * %Source: __Role__ Retrieved from cache
  * Requires: This gonna a Pop-Up
  * MileStone: Redirect to  Post (An Individual Page)
  * TODO: Add Colorful SVG Icon in Post Options 
  */
 
 
-const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
+const SelectPostType: FC<{ parentPath: string, setBarTitle: Function }> = ({ parentPath, setBarTitle }) => {
   const history = useHistory();
+
+  const client = useApolloClient()
+  const queryReader = client.readQuery<Authorize>({
+    query: AUTHORIZE_USER
+  });
+
+  const role = queryReader?.authorize?.credentials?.role;
 
   function gotoPostUploader(state: postType): void {
     history.push(`${parentPath}/upload`, state);
   }
 
+  useEffect(()=>{
+    setBarTitle("Select Post Type")
+  }, [setBarTitle])
+
   return (
     <TransitionSlideParent>
       <SelectPostContainer>
-
-        <h2>Select Type of Post</h2>
 
       {/* Common */}
       <PostOptions
@@ -53,7 +64,7 @@ const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
         Activities
       </PostOptions>
       {/* Student */}
-      {
+      { role===roleValue.student&&
         <PostOptions
         bgColor={Color.lightcoral}
         color={Color.darkCoral}
@@ -63,7 +74,7 @@ const SelectPostType: FC<{ parentPath: string }> = ({ parentPath }) => {
         </PostOptions>
       }
       {/* Teacher */}
-      { <>
+      { role===roleValue.teacher && <>
         <PostOptions
           bgColor={Color.moccasin}
           color={Color.darkMoccasin}

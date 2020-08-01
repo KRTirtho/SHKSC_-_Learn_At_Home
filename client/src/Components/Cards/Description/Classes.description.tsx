@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import {PropertyTick, CommonTitle, CommonDescription} from "../../Static/TypoGraphy"
+import { group } from '../../../SchemaTypes/schemaTypes'
 
 type ClassDescriptionProps = { 
     title: string,
@@ -7,7 +8,7 @@ type ClassDescriptionProps = {
     _class: number,
     subject: string,
     chapter: string,
-    group?: string
+    group?: group
 }
 
 const ClassDescription:FC<ClassDescriptionProps> = ({title, description, _class, subject, chapter, group}) => {

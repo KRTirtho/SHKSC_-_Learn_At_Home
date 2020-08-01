@@ -8,7 +8,7 @@ import { Color } from "../../../utils/Assets/CSSProps";
 import { HoverActive } from "../../Static/HoverActive";
 import { PrimaryButton } from "../../Static/Buttons";
 import { Link } from "react-router-dom";
-import { useMutation } from "react-apollo";
+import { useMutation } from "@apollo/client";
 import { SET_AVATAR } from "../../../schema/mutation/SetAvatar";
 
 const SetProfilePicture = () => {

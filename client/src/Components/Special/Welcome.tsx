@@ -3,8 +3,8 @@ import {TransitionSlideParent, Brand, FormContainer, BackButton} from "../Static
 import styled from 'styled-components'
 import { PrimaryButton } from '../Static/Buttons'
 import { useHistory } from 'react-router-dom'
-import {useApolloClient, useQuery} from "react-apollo"
-import { SIGNED_UP } from '../../schema/local/Query'
+import {useApolloClient, useQuery} from "@apollo/client"
+import { SIGNED_UP, LOGIN_LOCAL } from '../../schema/local/Query'
 
 const Welcome = () => {
     const history = useHistory()
@@ -13,7 +13,7 @@ const Welcome = () => {
     
     const gotoHome = ()=>{
         if(data.signedUp){
-            client.writeData({data:{loggedIn: true}})
+            client.writeQuery({query: LOGIN_LOCAL, data:{loggedIn: true}})
         }
         history.push("/")
     }

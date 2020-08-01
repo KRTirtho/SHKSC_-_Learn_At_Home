@@ -16,6 +16,11 @@ export const userTypes = gql`
         login(credentials: authUser):User
         setAvatar(file: Upload!): AvatarTypes!
     }
+    type Tokens{
+        accessToken: String!
+        refreshToken: String!
+    }
+    
     # For user return type
     type User {
         _id: ID!
@@ -23,7 +28,7 @@ export const userTypes = gql`
         first_name: String
         last_name: String
         email: String
-        password: String
+        # password: String
         class_roll: Int
         class: Int
         section: String
@@ -31,7 +36,7 @@ export const userTypes = gql`
         shift: shiftValue
         avatar_uri: String
         avatar_id: String
-        token: String
+        tokens: Tokens 
     }
     # For signing up new user
     input newUser{
@@ -55,8 +60,10 @@ export const userTypes = gql`
     }
     # authorization return type 
     type authorizeUser{
-        login: Boolean
+        login: Boolean!
         credentials: User
+        tokens: Tokens
+        expired: Boolean
     }
     enum shiftValue{
         Day

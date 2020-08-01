@@ -1,4 +1,6 @@
 import React from 'react'
+import withNavbar from '../Components/HighlyDynamic/withNavbar'
+import withTopBar from '../Components/HighlyDynamic/withTopBar'
 
 const Announces = () => {
     return (
@@ -8,4 +10,4 @@ const Announces = () => {
     )
 }
 
-export default Announces
+export default withNavbar(withTopBar(Announces))

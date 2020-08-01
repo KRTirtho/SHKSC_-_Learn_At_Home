@@ -7,6 +7,8 @@ import Threetype from './Review/Threetype'
 import Twotype from './Review/Twotype'
 import PostFiles from '../Media/PostFiles'
 import { CommonContainer } from '../Static/Containers'
+import { postType } from '../../SchemaTypes/schemaTypes'
+import { ICommonCardProps } from './CardPropTypes'
 
 /**
  ** This Component includes
@@ -14,27 +16,17 @@ import { CommonContainer } from '../Static/Containers'
  * @Component Principal
  * @Component Announces
   */
-type CommonProps = {
-    post_type: string,
-    title: string,
-    description: string,
-    date: number|string,
-    posted_by?: string,
-    avatar_url: string,
-    files?: {url: string}[]
-}
-
-const Common:FC<CommonProps> = props => {
-    const {post_type, title, description, date, posted_by, avatar_url, files} = props
+const Common:FC<ICommonCardProps> = props => {
+    const {post_type, title, description, date, uploadedBy, avatar_url, files} = props
     
     return (
         <CommonContainer>
             {/* The header part */}
-            {post_type==="principal"?
+            {post_type===postType.principal?
              <PrincipalHeaders
                 avatar_url={avatar_url}
                 date={date}
-            />: post_type==="announces"?
+            />: post_type===postType.announcement?
             <AnnouncesHeader
                 avatar_url={avatar_url}
                 date={date}
@@ -43,7 +35,7 @@ const Common:FC<CommonProps> = props => {
                 avatar_url={avatar_url}
                 date={date}
                 post_type={post_type}
-                posted_by={posted_by&&posted_by}
+                uploadedBy={uploadedBy&&uploadedBy}
             />
             }
             {/* Post Description */}

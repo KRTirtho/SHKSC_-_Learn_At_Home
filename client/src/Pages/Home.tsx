@@ -4,95 +4,73 @@ import Classes from '../Components/Cards/Classes'
 import { PageContainer } from '../Components/Static/Containers'
 import Questions from '../Components/Cards/Questions'
 import Examination from '../Components/Cards/Examination'
+import { useQuery } from '@apollo/client'
+import { ALL_POST } from '../schema/query/AllPosts'
+import {AllPost, postType} from "../SchemaTypes/schemaTypes"
+import withTopBar from '../Components/HighlyDynamic/withTopBar'
+import withNavbar from '../Components/HighlyDynamic/withNavbar'
+import { title } from 'process'
+
+/**
+ * @description This is the most contentful Component of the whole app.
+ * TODO: Implementation of InfiniteScroll Component   
+ * TODO: LazyLoader For Post
+ * TODO: Pagination
+ */
 
 const Home:FC = () => {
+    const {data, loading, error} = useQuery<AllPost>(ALL_POST)
+
+    
     return (
         <PageContainer>
-            <Common
-                post_type={"announces"}
-                avatar_url={"./favicon.ico"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos?"}
-                title={"Something new Lorem"}
-                files={[{url: "./favicon.ico"}, {url: "./favicon.ico"}, {url: "./favicon.ico"}]}
-            />
 
-            <Common
-                post_type={"principal"}
-                avatar_url={"./favicon.ico"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos?"}
-                title={"Something new Lorem"}
-                files={[{url: "./favicon.ico"}, {url: "./favicon.ico"}, {url: "./favicon.ico"}]}
-            />
-
-            <Common
-                post_type={"activities"}
-                posted_by={"KR. Tirtho"}
-                avatar_url={"./favicon.ico"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos?"}
-                title={"Something new Lorem"}
-                files={[{url: "./favicon.ico"}, {url: "./favicon.ico"}, {url: "./favicon.ico"}]}
-            />
-            {/* Classes Test */}
-            <Classes 
-                _class={10}
-                avatar_url={"./favicon.ico"}
-                chapter={"third"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos?"}
-                post_type={"classes"}
-                posted_by={"Someone"}
-                subject={"biology"}
-                title={"Todays class"}
-                files={[{url: "./favicon.ico"}, {url: "./favicon.ico"}]}
-                group={"Science"}
-            />
-
-            <Classes 
-                _class={10}
-                post_type={"classes"}
-                posted_by={"admin"}
-                teacher_name={"ABU Sayed"}
-                avatar_url={"./favicon.ico"}
-                chapter={"third"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos?"}
-                subject={"biology"}
-                title={"Todays class"}
-                files={[{url: "./favicon.ico"}, {url: "./favicon.ico"}]}
-                group={"Science"}
-            />
-
-            <Questions 
-                _class={10}
-                avatar_url={"./favicon.ico"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos?"}
-                post_type={"questions"}
-                posted_by={"Someone"}
-                subject={"biology"}
-                title={"Todays Qustion"}
-                class_roll={43}
-                section={"A"}
-                student_name={"Some Name"}
-            />
-
-            <Examination 
-                _class={10}
-                avatar_url={"./favicon.ico"}
-                date={Date.now()}
-                description={"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio praesentium tenetur labore aperiam delectus tempore quaerat fugiat iusto reprehenderit? Nesciunt cupiditate adipisci facilis velit esse! Assumenda magnam ab iure nisi provident minus sed suscipit doloremque qui ipsam, tempore animi velit alias adipisci dolor! Soluta aspernatur hic, rerum tempora numquam dignissimos"}
-                post_type={"examination"}
-                subject={"Bangla 2nd Paper"}
-                title={"BAASH"}
-                files={[{url: "./favicon.ico"}]}
-                group={"Science"}
-                teacher_name={"ABU Sayed"}
-            />
+            {
+                data?.allPost.map((post, index)=>{
+                    return (
+                        <article key={index}>
+                        {post.post_type===postType.announcement
+                        || post.post_type===postType.principal
+                        || post.post_type===postType.activities?
+                        <Common
+                            {...post}
+                            avatar_url={post.avatar_url??"./favicon.ico"}
+                            />
+                         : post.post_type===postType.classes?
+                         <Classes 
+                            {...post}
+                            group={post.group??undefined}
+                            subject={post.subject??''}
+                            _class={post.class??0}
+                            chapter={post.chapter??''}
+                            avatar_url={post.avatar_url??"./favicon.ico"}
+                            section={post.section??''}
+                            />
+                            : post.post_type===postType.question?
+                         <Questions 
+                            {...post}
+                            avatar_url={post.avatar_url??"./favicon.ico"}
+                            _class={post.class??0}
+                            class_roll={post.class_roll??0}
+                            section={post.section??''}
+                            subject={post.subject??''}
+                            group={post.group??undefined}
+                            />
+                            : post.post_type===postType.examination&&
+                         <Examination 
+                            {...post}
+                            avatar_url={post.avatar_url??"./favicon.ico"}
+                            _class={post.class??0}
+                            subject={post.subject??''}
+                            group={post.group??undefined}
+                            section={post.section??''}
+                            />}
+                        </article>
+                    )
+                })            
+            }
         </PageContainer>
     )
 }
 
-export default Home
+export default withNavbar(withTopBar(Home))
