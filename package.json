@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.1"
+    "mongoose": "^5.10.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
